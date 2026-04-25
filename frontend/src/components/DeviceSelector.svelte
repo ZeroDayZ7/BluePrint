@@ -1,58 +1,81 @@
 <script lang="ts">
-  interface Props {
-    deviceName: string;
-    deviceStatus: string;
-    onRefresh: () => Promise<void>;
-  }
-
-  let { deviceName, deviceStatus, onRefresh }: Props = $props();
-  let isRefreshing = $state(false);
-
-  const isConnected = $derived(deviceStatus === "Connected");
+  import { onMount } from "svelte";
+  import { GetDevices } from "../../wailsjs/go/main/App";
+  import { deviceState } from "../lib/deviceState.svelte";
 
   async function handleRefresh() {
-    if (isRefreshing) return;
+    if (deviceState.isRefreshing) return;
+    deviceState.isRefreshing = true;
 
-    isRefreshing = true;
-
-    // Timer na minimum 1 sekundę dla płynności animacji
+    // Timer dla płynności animacji kręcenia się ikony
     const minTime = new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
-      // Czekamy na skanowanie i na upłynięcie sekundy
-      await Promise.all([onRefresh(), minTime]);
+      const result = await GetDevices();
+      deviceState.devices = result || [];
+
+      // Jeśli po odświeżeniu lista jest mniejsza niż wybrany indeks, zresetuj go
+      if (deviceState.selectedDeviceIndex >= deviceState.devices.length) {
+        deviceState.selectedDeviceIndex = 0;
+      }
+    } catch (err) {
+      console.error("ADB Error:", err);
     } finally {
-      isRefreshing = false;
+      await minTime;
+      deviceState.isRefreshing = false;
     }
   }
+
+  onMount(() => {
+    if (deviceState.devices.length === 0) {
+      handleRefresh();
+    }
+  });
 </script>
 
 <div class="flex items-center gap-6">
-  <div class="flex flex-col">
+  <div class="flex flex-col items-start">
     <span
-      class="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold leading-none mb-1"
+      class="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold leading-none mb-2"
     >
       Active Device
     </span>
+
     <div class="flex items-center gap-2">
       <div
-        class="w-2 h-2 rounded-full transition-colors {isConnected
+        class="w-2 h-2 rounded-full transition-colors {deviceState.isConnected
           ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]'
           : 'bg-slate-600'}"
       ></div>
-      <span
-        class="text-sm font-mono {isConnected
-          ? 'text-blue-400'
-          : 'text-slate-400'}"
-      >
-        {deviceName}
-      </span>
+
+      {#if deviceState.devices.length > 1}
+        <select
+          bind:value={deviceState.selectedDeviceIndex}
+          class="bg-transparent text-sm font-mono border-none text-blue-400 focus:ring-0 cursor-pointer outline-none p-0"
+        >
+          {#each deviceState.devices as device, i}
+            <option value={i} class="bg-slate-900 text-white">
+              {device.model} ({device.id})
+            </option>
+          {/each}
+        </select>
+      {:else if deviceState.devices.length === 1}
+        <span
+          class="text-sm font-mono {deviceState.isConnected
+            ? 'text-blue-400'
+            : 'text-slate-400'}"
+        >
+          {deviceState.activeDevice?.model} ({deviceState.activeDevice?.id})
+        </span>
+      {:else}
+        <span class="text-sm font-mono text-slate-400"> No Device Found </span>
+      {/if}
     </div>
   </div>
 
   <button
     onclick={handleRefresh}
-    disabled={isRefreshing}
+    disabled={deviceState.isRefreshing}
     class="p-2 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:bg-slate-700 hover:border-slate-600 transition-all group active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
     title="Refresh ADB devices"
   >
@@ -62,7 +85,7 @@
       viewBox="0 0 24 24"
       stroke-width="2"
       stroke="currentColor"
-      class="w-4 h-4 {isRefreshing ? 'animate-spin' : ''}"
+      class="w-4 h-4 {deviceState.isRefreshing ? 'animate-spin' : ''}"
     >
       <path
         stroke-linecap="round"

@@ -8,7 +8,6 @@
 
   let activeTab = $state("dashboard");
   let deviceStatus = $state("Disconnected");
-  let deviceName = $state("None");
   let logs = $state(["System initialized...", "Vite + Svelte 5 running..."]);
 
   const CurrentPage = $derived(screens[activeTab] || Dashboard);
@@ -24,7 +23,7 @@
   {/snippet}
 
   {#snippet header()}
-    <DeviceSelector {deviceName} {deviceStatus} onRefresh={refreshDevices} />
+    <DeviceSelector />
   {/snippet}
 
   {#snippet content()}

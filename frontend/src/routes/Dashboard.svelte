@@ -1,8 +1,26 @@
 <script lang="ts">
   import Button from "../components/Button.svelte";
-  import Switch from "../components/Switch.svelte"; // Zakładam że go tam użyjesz
+  import { StartMirroring } from "../../wailsjs/go/main/App";
+  import { deviceState } from "../lib/deviceState.svelte";
 
   let { logs = $bindable() } = $props();
+
+  async function handleMirror() {
+    if (!deviceState.activeDevice) {
+      logs = [...logs, "Error: No device selected"];
+      return;
+    }
+
+    try {
+      const result = await StartMirroring(deviceState.activeDevice.id);
+      logs = [
+        ...logs,
+        `Mirroring: ${result} for ${deviceState.activeDevice.id}`,
+      ];
+    } catch (err) {
+      logs = [...logs, `Error: ${err}`];
+    }
+  }
 </script>
 
 <div class="space-y-8">
@@ -13,18 +31,26 @@
       Quick Actions
     </h3>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <Button variant="secondary" class="h-24 flex-col text-xs"
-        >Reboot Bootloader</Button
+      <Button variant="secondary" class="h-14 flex-col text-xs">
+        Reboot Bootloader
+      </Button>
+
+      <Button
+        variant="secondary"
+        class="h-14 flex-col text-xs"
+        onclick={handleMirror}
+        disabled={!deviceState.isConnected}
       >
-      <Button variant="secondary" class="h-24 flex-col text-xs"
-        >Screen Mirror</Button
-      >
-      <Button variant="secondary" class="h-24 flex-col text-xs"
-        >Install APK</Button
-      >
-      <Button variant="danger" class="h-24 flex-col text-xs text-red-400"
-        >Kill Server</Button
-      >
+        Screen Mirror
+      </Button>
+
+      <Button variant="secondary" class="h-14 flex-col text-xs">
+        Install APK
+      </Button>
+
+      <Button variant="danger" class="h-14 flex-col text-xs text-red-400">
+        Kill Server
+      </Button>
     </div>
   </div>
 </div>
