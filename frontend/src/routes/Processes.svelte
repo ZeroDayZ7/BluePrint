@@ -2,20 +2,21 @@
   import { GetProcesses, KillProcess } from "../../wailsjs/go/main/App";
   import { deviceState } from "../lib/deviceState.svelte";
   import { untrack } from "svelte";
+  import ListContainer from "../components/ListContainer.svelte";
   import Loader from "../components/Loader.svelte";
-  import SearchBar from "../components/SearchBar.svelte";
-  import IconButton from "../components/IconButton.svelte";
   import ActionButton from "../components/ActionButton.svelte";
 
   let isLoading = $state(false);
   let searchQuery = $state("");
 
+  // Pobieranie z cache
   let processes = $derived(
     deviceState.activeDevice
       ? deviceState.processesCache[deviceState.activeDevice.id] || []
       : [],
   );
 
+  // Filtrowanie i sortowanie
   let sortedProcesses = $derived(
     processes
       .filter(
@@ -48,6 +49,7 @@
     const deviceId = deviceState.activeDevice.id;
     const previous = [...deviceState.processesCache[deviceId]];
 
+    // Optymistyczne usunięcie z UI
     deviceState.processesCache[deviceId] = previous.filter(
       (p) => p.pid !== pid,
     );
@@ -72,44 +74,15 @@
   });
 </script>
 
-<div
-  class="flex flex-col p-4 bg-[#161b22]/40 rounded-2xl border border-slate-800/60 h-full"
+<ListContainer
+  title="Running Processes"
+  subtitle="{sortedProcesses.length} threads"
+  searchPlaceholder="Filter by name or PID..."
+  bind:searchQuery
+  onRefresh={refreshProcesses}
+  headerExtra={() => {}}
+  searchActions={() => {}}
 >
-  <div class="flex items-center justify-between mb-4">
-    <div class="flex flex-col">
-      <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">
-        Running Processes
-      </h3>
-      <span class="text-[10px] text-slate-600 font-medium"
-        >{sortedProcesses.length} threads</span
-      >
-    </div>
-    <IconButton onclick={refreshProcesses} title="Refresh processes">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><path
-          d="M21 3v5h-5"
-        />
-      </svg>
-    </IconButton>
-  </div>
-
-  <div class="mb-4">
-    <SearchBar
-      bind:value={searchQuery}
-      placeholder="Filter by name or PID..."
-    />
-  </div>
-
   <div
     class="grid grid-cols-12 px-3 py-2 text-[10px] font-bold text-slate-600 uppercase tracking-tighter border-b border-slate-800/50 bg-slate-900/20 rounded-t-lg"
   >
@@ -167,6 +140,7 @@
                   /></svg
                 >
               </button>
+
               <ActionButton
                 label="Kill"
                 icon="zap"
@@ -178,4 +152,4 @@
       </div>
     {/if}
   </div>
-</div>
+</ListContainer>
