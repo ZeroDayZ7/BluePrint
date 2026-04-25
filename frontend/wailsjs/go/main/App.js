@@ -6,6 +6,10 @@ export function GetDevices() {
   return window['go']['main']['App']['GetDevices']();
 }
 
+export function GetInstalledApps(arg1, arg2) {
+  return window['go']['main']['App']['GetInstalledApps'](arg1, arg2);
+}
+
 export function StartMirroring(arg1) {
   return window['go']['main']['App']['StartMirroring'](arg1);
 }

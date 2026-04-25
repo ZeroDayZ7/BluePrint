@@ -4,4 +4,6 @@ import {main} from '../models';
 
 export function GetDevices():Promise<Array<main.Device>>;
 
+export function GetInstalledApps(arg1:string,arg2:boolean):Promise<Array<string>>;
+
 export function StartMirroring(arg1:string):Promise<string>;
