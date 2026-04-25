@@ -1,0 +1,30 @@
+{
+  "files.exclude": {
+    "**/go.sum": true,
+    "**/.gitattributes": true,
+    "**/build": true,
+    "**/node_modules": true,
+    "**/wailsjs": true,
+    "**/package-lock.json": true,
+    "**/package.json.md5": true,
+    "**/vite-env.d.ts": true,
+    "**/frontend/dist": true
+    // "README.md": true
+  },
+
+  "search.exclude": {
+    "**/go.sum": true,
+    "**/.gitattributes": true,
+    "**/build": true,
+    "**/LICENSE": true,
+    "**/node_modules": true,
+    "**/wailsjs": true,
+    "**/package-lock.json": true,
+    "**/package.json.md5": true,
+    "**/vite-env.d.ts": true,
+    "**/frontend/dist": true,
+    "README.md": true
+  },
+  "go.formatTool": "gofmt",
+  "editor.formatOnSave": true
+}
