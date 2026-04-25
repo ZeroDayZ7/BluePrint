@@ -63,3 +63,43 @@ body {
 :global(.custom-scrollbar::-webkit-scrollbar-thumb:hover) {
   background: #334155;
 }
+
+*:focus,
+*:focus-visible,
+*:active {
+  outline: none !important;
+  outline-width: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+button:focus,
+button:active,
+input:focus {
+  box-shadow: none !important;
+}
+
+button::-moz-focus-inner {
+  border: 0 !important;
+}
+
+:focus,
+:active,
+button:focus,
+button:active,
+.rounded-xl:focus {
+  outline: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  /* -webkit-user-select: none; */
+}
+
+nav button {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
