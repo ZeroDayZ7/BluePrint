@@ -20,3 +20,14 @@ func FetchPackages(adbPath string, deviceID string, filter string) (string, erro
 	out, err := cmd.Output()
 	return string(out), err
 }
+
+func FetchProcesses(adbPath string, deviceID string) (string, error) {
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "top", "-b", "-n", "1")
+	out, err := cmd.Output()
+	return string(out), err
+}
+
+func KillProcess(adbPath string, deviceID string, pid string) error {
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "kill", "-9", pid)
+	return cmd.Run()
+}

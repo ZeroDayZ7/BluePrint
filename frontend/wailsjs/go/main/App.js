@@ -10,6 +10,14 @@ export function GetInstalledApps(arg1, arg2) {
   return window['go']['main']['App']['GetInstalledApps'](arg1, arg2);
 }
 
+export function GetProcesses(arg1) {
+  return window['go']['main']['App']['GetProcesses'](arg1);
+}
+
+export function KillProcess(arg1, arg2) {
+  return window['go']['main']['App']['KillProcess'](arg1, arg2);
+}
+
 export function StartMirroring(arg1) {
   return window['go']['main']['App']['StartMirroring'](arg1);
 }

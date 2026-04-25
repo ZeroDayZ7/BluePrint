@@ -16,6 +16,26 @@ export namespace main {
 	        this.status = source["status"];
 	    }
 	}
+	export class ProcessInfo {
+	    pid: string;
+	    user: string;
+	    cpu: string;
+	    mem: string;
+	    name: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ProcessInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.pid = source["pid"];
+	        this.user = source["user"];
+	        this.cpu = source["cpu"];
+	        this.mem = source["mem"];
+	        this.name = source["name"];
+	    }
+	}
 
 }
 

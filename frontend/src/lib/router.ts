@@ -3,10 +3,12 @@ import Dashboard from "../routes/Dashboard.svelte";
 import Settings from "../routes/Settings.svelte";
 import Files from "../routes/Files.svelte";
 import Applications from "../routes/Applications.svelte";
+import Processes from "../routes/Processes.svelte";
 
 export const navigation = [
   { id: "dashboard", label: "Dashboard", icon: "home" },
   { id: "apps", label: "Applications", icon: "grid" },
+  { id: "processes", label: "Processes", icon: "activity" },
   { id: "files", label: "File Explorer", icon: "folder" },
   { id: "settings", label: "Settings", icon: "settings" },
 ];
@@ -14,6 +16,7 @@ export const navigation = [
 export const screens: Record<string, any> = {
   dashboard: Dashboard,
   apps: Applications,
+  processes: Processes,
   settings: Settings,
   files: Files,
 };

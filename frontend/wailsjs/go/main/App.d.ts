@@ -6,4 +6,8 @@ export function GetDevices():Promise<Array<main.Device>>;
 
 export function GetInstalledApps(arg1:string,arg2:boolean):Promise<Array<string>>;
 
+export function GetProcesses(arg1:string):Promise<Array<main.ProcessInfo>>;
+
+export function KillProcess(arg1:string,arg2:string):Promise<string>;
+
 export function StartMirroring(arg1:string):Promise<string>;

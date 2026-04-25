@@ -51,7 +51,7 @@
       {#if deviceState.devices.length > 1}
         <select
           bind:value={deviceState.selectedDeviceIndex}
-          class="bg-transparent text-sm font-mono border-none text-blue-400 focus:ring-0 cursor-pointer outline-none p-0"
+          class="bg-transparent text-sm font-mono border-none text-blue-400 cursor-pointer"
         >
           {#each deviceState.devices as device, i}
             <option value={i} class="bg-slate-900 text-white">

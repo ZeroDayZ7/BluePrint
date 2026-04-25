@@ -1,9 +1,19 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local(""),
+    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
+}
+
 html {
   background-color: rgba(27, 38, 54, 1);
-  text-align: center;
   color: white;
+
+  /* scrollbar-gutter: stable; */
 }
 
 body {
@@ -21,32 +31,17 @@ body {
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
-}
-
-@font-face {
-  font-family: "Nunito";
-  font-style: normal;
-  font-weight: 400;
-  src:
-    local(""),
-    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
   height: 100vh;
-  text-align: center;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 41, 59, 0.5) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -69,31 +64,32 @@ body {
   background-color: rgba(59, 130, 246, 0.4);
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(30, 41, 59, 0.5) transparent;
-}
-
-.flex-1 {
-  scrollbar-gutter: stable;
-}
-
-button:focus,
-button:active,
-input:focus {
+/* *:focus,
+*:focus-visible,
+*:active {
+  outline: none !important;
   box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 button::-moz-focus-inner {
   border: 0 !important;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent !important;
-}
+} */
 
 nav button {
   -webkit-user-select: none;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

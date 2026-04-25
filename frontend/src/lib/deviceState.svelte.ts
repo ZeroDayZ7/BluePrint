@@ -10,6 +10,10 @@ class DeviceState {
   selectedDeviceIndex = $state(0);
   isRefreshing = $state(false);
 
+  userAppsCache = $state<Record<string, string[]>>({});
+  systemAppsCache = $state<Record<string, string[]>>({});
+  processesCache = $state<Record<string, any[]>>({});
+
   activeDevice = $derived(
     this.devices.length > 0 ? this.devices[this.selectedDeviceIndex] : null,
   );
@@ -17,13 +21,10 @@ class DeviceState {
   displayStatus = $derived.by(() => {
     const device = this.activeDevice;
     if (!device) return "Disconnected";
-
-    if (device.status === "device" || device.status === "Connected") {
+    if (device.status === "device" || device.status === "Connected")
       return "Connected";
-    }
     if (device.status === "unauthorized") return "Unauthorized";
     if (device.status === "offline") return "Offline";
-
     return device.status;
   });
 
