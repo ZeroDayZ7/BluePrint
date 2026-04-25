@@ -1,9 +1,10 @@
 <script lang="ts">
   import MainLayout from "./components/MainLayout.svelte";
   import Sidebar from "./components/Sidebar.svelte";
-  import Button from "./components/Button.svelte";
+  import Console from "./components/Console.svelte";
   import Dashboard from "./routes/Dashboard.svelte";
   import { screens } from "./lib/router";
+  import DeviceSelector from "./components/DeviceSelector.svelte";
 
   let activeTab = $state("dashboard");
   let deviceStatus = $state("Disconnected");
@@ -23,15 +24,16 @@
   {/snippet}
 
   {#snippet header()}
-    <div class="text-xs font-medium text-slate-500 uppercase tracking-widest">
-      Device: <span class="text-blue-400 ml-1 font-mono">{deviceName}</span>
-    </div>
-    <Button onclick={refreshDevices} class="text-xs px-5 py-2">
-      Refresh ADB
-    </Button>
+    <DeviceSelector {deviceName} {deviceStatus} onRefresh={refreshDevices} />
   {/snippet}
 
   {#snippet content()}
-    <CurrentPage bind:logs />
+    <div class="flex flex-col h-full">
+      <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+        <CurrentPage bind:logs />
+      </div>
+
+      <Console {logs} />
+    </div>
   {/snippet}
 </MainLayout>

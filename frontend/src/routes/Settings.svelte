@@ -29,7 +29,7 @@
         id="adb-path"
         type="text"
         value="C:/platform-tools/adb.exe"
-        class="bg-[#0b0e14] border border-slate-800 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all text-slate-300"
+        class="bg-[#0b0e14] border border-slate-800 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 text-slate-300"
       />
     </div>
   </div>

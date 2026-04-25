@@ -6,7 +6,6 @@
     id?: string;
   }
 
-  // Bindable pozwala na dwukierunkową synchronizację (bind:checked)
   let {
     checked = $bindable(false),
     label = "",
@@ -14,9 +13,8 @@
     id = `switch-${Math.random().toString(36).slice(2, 9)}`,
   }: Props = $props();
 
-  function handleChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-    checked = target.checked;
+  function toggle() {
+    checked = !checked;
     onchange?.(checked);
   }
 </script>
@@ -25,41 +23,36 @@
   {#if label}
     <label
       for={id}
-      class="text-sm font-medium text-slate-400 cursor-pointer select-none"
+      class="text-[10px] uppercase font-semibold tracking-[0.2em] text-slate-500 cursor-pointer select-none"
     >
       {label}
     </label>
   {/if}
 
-  <div class="relative inline-flex items-center">
-    <input
-      type="checkbox"
-      {id}
-      class="sr-only peer"
-      {checked}
-      onchange={handleChange}
-    />
+  <button
+    type="button"
+    {id}
+    onclick={toggle}
+    aria-label={label || "Toggle switch"}
+    aria-pressed={checked}
+    class="relative w-11 h-6 flex items-center rounded-full transition-colors duration-300
+    {checked
+      ? 'bg-blue-500/20 border-blue-400/40'
+      : 'bg-slate-800/40 border-slate-700/40'}
+    border backdrop-blur-md"
+  >
+    <!-- track highlight -->
+    <span
+      class="absolute inset-0 rounded-full transition-opacity duration-300
+      {checked ? 'opacity-100 bg-blue-500/10' : 'opacity-0'}"
+    ></span>
 
-    <button
-      type="button"
-      {id}
-      onclick={() => (checked = !checked)}
-      class="w-11 h-6 bg-slate-800 rounded-full border border-slate-700
-             peer-checked:bg-blue-600 peer-checked:border-blue-500
-             peer-focus:ring-2 peer-focus:ring-blue-500/50
-             transition-all duration-300 cursor-pointer
-             shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]"
-      aria-pressed={checked}
-      aria-label={label || "Toggle switch"}
-    >
-      <span
-        class="absolute top-[3px] left-[3px] w-4 h-4 bg-white rounded-full
-               transition-all duration-300 shadow-md
-               {checked ? 'translate-x-5' : 'translate-x-0'}"
-      ></span>
-    </button>
-  </div>
+    <!-- knob -->
+    <span
+      class="relative h-4 w-4 rounded-full transition-transform duration-300 ease-out
+      {checked
+        ? 'translate-x-[22px] bg-blue-400'
+        : 'translate-x-1 bg-slate-400'}"
+    ></span>
+  </button>
 </div>
-
-<style>
-</style>

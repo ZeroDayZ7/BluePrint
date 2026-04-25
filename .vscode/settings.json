@@ -2,7 +2,7 @@
   "files.exclude": {
     "**/go.sum": true,
     "**/.gitattributes": true,
-    "**/build": true,
+    // "**/build": true,
     "**/node_modules": true,
     "**/wailsjs": true,
     "**/package-lock.json": true,

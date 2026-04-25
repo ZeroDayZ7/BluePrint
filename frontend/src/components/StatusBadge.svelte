@@ -3,20 +3,31 @@
   let isConnected = $derived(status === "Connected");
 </script>
 
-<div class="p-4 bg-slate-900/40 rounded-2xl border border-slate-800/60">
+<div
+  class="p-4 rounded-2xl transition-all duration-300 border
+  {isConnected
+    ? 'bg-blue-600/10 border-blue-500/20 shadow-sm'
+    : 'bg-slate-800/40 border-slate-800/60'}"
+>
   <div
-    class="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-2"
+    class="text-[10px] text-slate-500 uppercase font-black tracking-[0.15em] mb-3"
   >
     Device Status
   </div>
-  <div class="flex items-center gap-2.5">
+
+  <div class="flex items-center gap-3">
     <div
-      class="w-2.5 h-2.5 rounded-full {isConnected
-        ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]'
-        : 'bg-red-500'}"
+      class="w-2.5 h-2.5 rounded-full transition-all duration-500
+      {isConnected
+        ? 'bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]'
+        : 'bg-slate-600'}"
     ></div>
-    <span class="text-xs font-bold text-slate-300 tracking-wide uppercase"
-      >{status}</span
+
+    <span
+      class="text-xs font-bold tracking-wide uppercase transition-colors
+      {isConnected ? 'text-blue-400' : 'text-slate-400'}"
     >
+      {status}
+    </span>
   </div>
 </div>

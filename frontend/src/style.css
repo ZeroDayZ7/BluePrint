@@ -8,7 +8,6 @@ html {
 
 body {
   margin: 0;
-  color: white;
   font-family:
     "Nunito",
     -apple-system,
@@ -50,26 +49,33 @@ body {
   border-width: 0;
 }
 
-:global(.custom-scrollbar::-webkit-scrollbar) {
+::-webkit-scrollbar {
   width: 6px;
-}
-:global(.custom-scrollbar::-webkit-scrollbar-track) {
-  background: transparent;
-}
-:global(.custom-scrollbar::-webkit-scrollbar-thumb) {
-  background: #1e293b;
-  border-radius: 10px;
-}
-:global(.custom-scrollbar::-webkit-scrollbar-thumb:hover) {
-  background: #334155;
+  height: 6px;
 }
 
-*:focus,
-*:focus-visible,
-*:active {
-  outline: none !important;
-  outline-width: 0 !important;
-  -webkit-tap-highlight-color: transparent !important;
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(59, 130, 246, 0.4);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 41, 59, 0.5) transparent;
+}
+
+.flex-1 {
+  scrollbar-gutter: stable;
 }
 
 button:focus,
@@ -82,20 +88,8 @@ button::-moz-focus-inner {
   border: 0 !important;
 }
 
-:focus,
-:active,
-button:focus,
-button:active,
-.rounded-xl:focus {
-  outline: 0 !important;
-  outline: none !important;
-  box-shadow: none !important;
-  border-color: transparent !important;
-}
-
 * {
   -webkit-tap-highlight-color: transparent !important;
-  /* -webkit-user-select: none; */
 }
 
 nav button {
