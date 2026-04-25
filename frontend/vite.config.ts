@@ -1,7 +1,14 @@
-import {defineConfig} from 'vite'
-import {svelte} from '@sveltejs/vite-plugin-svelte'
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte()]
-})
+  plugins: [tailwindcss(), svelte()],
+  resolve: {
+    // To pozwoli Ci używać skrótu $lib w importach (plan PRO)
+    alias: {
+      $lib: "/src/lib",
+    },
+  },
+});
