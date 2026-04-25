@@ -1,36 +1,67 @@
 <script lang="ts">
-  import Switch from "../components/Switch.svelte";
+  import PageHeader from "../components/PageHeader.svelte";
+  import SettingGroup from "../components/SettingGroup.svelte";
+  import SettingItem from "../components/SettingItem.svelte";
 
-  let neonEffects = $state(true);
+  // Stan ustawień
+  let devMode = $state(true);
+  let autoConnect = $state(false);
+  let adbPath = $state("C:/platform-tools/adb.exe");
 </script>
 
-<div class="max-w-2xl bg-[#161b22] border border-slate-800 rounded-2xl p-8">
-  <h2 class="text-2xl font-bold mb-6 tracking-tight text-white font-sans">
-    Settings
-  </h2>
-  <div class="space-y-6">
-    <div
-      class="flex items-center justify-between p-4 bg-slate-900/40 rounded-xl border border-slate-800/50"
-    >
-      <div>
-        <div class="font-medium text-slate-100">Dark Mode Neon</div>
-        <div class="text-sm text-slate-500 font-sans">
-          Glow effects on buttons and cards
-        </div>
-      </div>
-      <Switch bind:checked={neonEffects} label="" />
+<div class="max-w-3xl">
+  <PageHeader
+    title="Settings"
+    description="Configure BluePrint and ADB environment"
+  />
+
+  <div class="space-y-2">
+    <SettingGroup title="Global Settings" />
+
+    <div class="flex flex-col">
+      <SettingItem
+        title="Developer Mode Monitoring"
+        description="Keep track of device state changes in real-time."
+        bind:checked={devMode}
+      />
+
+      <div class="h-[1px] bg-slate-800/30 w-full my-1"></div>
+
+      <SettingItem
+        title="Auto-Connect USB"
+        description="Automatically authorize new devices via ADB."
+        bind:checked={autoConnect}
+      />
     </div>
 
-    <div class="flex flex-col gap-2 font-sans">
-      <label for="adb-path" class="text-sm font-semibold text-slate-400 ml-1"
-        >ADB Binary Path</label
-      >
-      <input
-        id="adb-path"
-        type="text"
-        value="C:/platform-tools/adb.exe"
-        class="bg-[#0b0e14] border border-slate-800 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 text-slate-300"
-      />
+    <SettingGroup title="ADB Configuration" />
+
+    <div class="flex flex-col gap-4 mt-6">
+      <div class="flex flex-col gap-1.5">
+        <label
+          for="adb-path"
+          class="text-[10px] uppercase font-black tracking-widest text-slate-500 ml-1"
+        >
+          ADB Binary Path
+        </label>
+        <p class="text-xs text-slate-600 ml-1">
+          Point to your adb.exe if it's not in system PATH.
+        </p>
+      </div>
+
+      <div class="flex gap-3">
+        <input
+          id="adb-path"
+          type="text"
+          bind:value={adbPath}
+          class="flex-1 bg-[#0b0e14] border border-slate-800 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 text-slate-300 transition-all font-mono"
+        />
+        <button
+          class="px-6 py-2 bg-slate-800/60 hover:bg-slate-700 border border-slate-700/50 rounded-xl text-xs font-bold transition-all active:scale-95"
+        >
+          Browse
+        </button>
+      </div>
     </div>
   </div>
 </div>

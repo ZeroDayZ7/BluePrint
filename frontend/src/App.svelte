@@ -29,8 +29,12 @@
 
   {#snippet content()}
     <div class="flex flex-col h-full">
-      <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
-        <CurrentPage bind:logs />
+      <div class="flex-1 overflow-y-auto custom-scrollbar">
+        <div class="w-full flex justify-center p-8">
+          <div class="w-full max-w-4xl">
+            <CurrentPage bind:logs />
+          </div>
+        </div>
       </div>
 
       <Console {logs} />

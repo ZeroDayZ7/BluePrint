@@ -22,7 +22,7 @@
       {@render header()}
     </header>
 
-    <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+    <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
       {@render content()}
     </div>
   </section>

@@ -27,36 +27,4 @@
       >
     </div>
   </div>
-
-  <div class="px-2 space-y-6">
-    <h3 class="text-sm font-black uppercase tracking-widest text-slate-500">
-      Global Settings
-    </h3>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <div class="flex items-center justify-between group">
-        <div>
-          <div class="text-slate-200 font-medium tracking-wide">
-            Developer Mode Monitoring
-          </div>
-          <p class="text-xs text-slate-500 mt-1">
-            Keep track of device state changes in real-time.
-          </p>
-        </div>
-        <Switch checked={true} />
-      </div>
-
-      <div class="flex items-center justify-between group">
-        <div>
-          <div class="text-slate-200 font-medium tracking-wide">
-            Auto-Connect USB
-          </div>
-          <p class="text-xs text-slate-500 mt-1">
-            Automatically authorize new devices via ADB.
-          </p>
-        </div>
-        <Switch checked={false} />
-      </div>
-    </div>
-  </div>
 </div>
