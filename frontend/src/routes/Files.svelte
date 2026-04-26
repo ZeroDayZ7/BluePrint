@@ -4,6 +4,8 @@
   import IndexBadge from "../components/IndexBadge.svelte";
   import ActionButton from "../components/ActionButton.svelte";
   import { untrack } from "svelte";
+  import Button from "../components/Button.svelte";
+  import Breadcrumbs from "../components/Breadcrumbs.svelte";
 
   let isLoading = $state(false);
   let showHidden = $state(false);
@@ -173,33 +175,15 @@
           Hidden
         </span>
       </label>
-
-      <div class="h-4 w-[1px] bg-slate-800/50"></div>
-
-      <div class="flex items-center gap-2">
-        <button
-          onclick={navigateUp}
-          title="Go back"
-          class="p-1.5 hover:bg-slate-800 rounded-md text-slate-400 transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" /></svg
-          >
-        </button>
-        <div
-          class="bg-slate-900/50 px-3 py-1 rounded-md border border-slate-800 text-[11px] font-mono text-slate-400"
-        >
-          {deviceState.currentPath}
-        </div>
-      </div>
     </div>
   {/snippet}
+
+  <Breadcrumbs
+    currentPath={deviceState.currentPath}
+    {storagePoints}
+    onNavigate={(path) => loadDirectory(path)}
+    onBack={navigateUp}
+  />
 
   {#snippet searchActions()}
     <div class="flex items-center">
