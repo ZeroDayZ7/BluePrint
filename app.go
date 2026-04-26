@@ -407,3 +407,15 @@ func (a *App) GetDeviceInfo(deviceID string) DeviceInfoResponse {
 	log.Printf("INFO: Finished GetDeviceInfo for %s (%s)", data.Model, deviceID)
 	return data
 }
+
+func (a *App) ExecuteShell(deviceID string, command string) string {
+	if deviceID == "" {
+		return "Error: No device selected"
+	}
+	adbPath := a.getToolPath("adb")
+	output, err := adb.RunShellCommand(adbPath, deviceID, command)
+	if err != nil && output == "" {
+		return "Error: " + err.Error()
+	}
+	return output
+}

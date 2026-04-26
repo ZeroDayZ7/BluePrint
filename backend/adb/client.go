@@ -82,3 +82,9 @@ func FetchBatteryStatus(adbPath string, deviceID string) (string, error) {
 	}
 	return string(out), err
 }
+
+func RunShellCommand(adbPath string, deviceID string, command string) (string, error) {
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", command)
+	out, err := cmd.CombinedOutput()
+	return string(out), err
+}

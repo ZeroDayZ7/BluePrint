@@ -77,8 +77,8 @@ button::-moz-focus-inner {
 } */
 
 nav button {
-  -webkit-user-select: none;
-  user-select: none;
+  /* -webkit-user-select: none; */
+  /* user-select: none; */
   -webkit-user-drag: none;
 }
 
