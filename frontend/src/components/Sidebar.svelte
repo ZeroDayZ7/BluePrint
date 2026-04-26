@@ -1,14 +1,13 @@
 <script lang="ts">
   import Logo from "./Logo.svelte";
   import StatusBadge from "./StatusBadge.svelte";
-  import { navigation } from "../lib/router"; // Importujemy nawigację z routera
+  import { navigation } from "../lib/router";
 
   interface Props {
-    activeTab: string; // To naprawia błąd "never"
-    deviceStatus: string;
+    activeTab: string;
   }
 
-  let { activeTab = $bindable(), deviceStatus }: Props = $props();
+  let { activeTab = $bindable() }: Props = $props();
 </script>
 
 <nav class="w-64 bg-[#0d1117] border-r border-slate-800/60 flex flex-col p-5">

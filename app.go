@@ -28,6 +28,11 @@ type ProcessInfo struct {
 	Name string `json:"name"`
 }
 
+type FileEntry struct {
+	Name  string `json:"name"`
+	IsDir bool   `json:"isDir"`
+}
+
 func NewApp() *App {
 	return &App{}
 }
@@ -222,4 +227,39 @@ func (a *App) KillProcess(deviceID string, pid string) string {
 	}
 	log.Printf("DEBUG: Kill signal sent successfully to PID %s", pid)
 	return "Success"
+}
+
+func (a *App) ListFiles(deviceID string, path string) []FileEntry {
+	adbPath := a.getToolPath("adb")
+
+	// Pobieramy surowe dane z modułu adb
+	raw, err := adb.FetchFiles(adbPath, deviceID, path)
+	if err != nil {
+		log.Println("ERROR ListFiles:", err)
+		return []FileEntry{}
+	}
+
+	var files []FileEntry
+	lines := strings.Split(raw, "\n")
+
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+
+		// Pomijamy puste linie i błędy uprawnień
+		if line == "" || strings.Contains(line, "Permission denied") {
+			continue
+		}
+
+		// Jeśli nazwa kończy się na /, to jest to katalog (dzięki flagi -p w ls)
+		isDir := strings.HasSuffix(line, "/")
+		name := strings.TrimSuffix(line, "/")
+
+		files = append(files, FileEntry{
+			Name:  name,
+			IsDir: isDir,
+		})
+	}
+
+	log.Printf("DEBUG: Found %d files in %s", len(files), path)
+	return files
 }

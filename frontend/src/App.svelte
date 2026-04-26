@@ -5,21 +5,19 @@
   import Dashboard from "./routes/Dashboard.svelte";
   import { screens } from "./lib/router";
   import DeviceSelector from "./components/DeviceSelector.svelte";
+  import Titlebar from "./components/trash/Titlebar.svelte";
 
   let activeTab = $state("dashboard");
-  let deviceStatus = $state("Disconnected");
   let logs = $state(["System initialized...", "Vite + Svelte 5 running..."]);
 
   const CurrentPage = $derived(screens[activeTab] || Dashboard);
-
-  async function refreshDevices() {
-    logs = [...logs, "Scanning for ADB devices..."];
-  }
 </script>
+
+<!-- <Titlebar title="ADB COMMANDER | BLUE PRINT" /> -->
 
 <MainLayout>
   {#snippet sidebar()}
-    <Sidebar bind:activeTab {deviceStatus} />
+    <Sidebar bind:activeTab />
   {/snippet}
 
   {#snippet header()}

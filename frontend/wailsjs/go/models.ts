@@ -16,6 +16,20 @@ export namespace main {
 	        this.status = source["status"];
 	    }
 	}
+	export class FileEntry {
+	    name: string;
+	    isDir: boolean;
+	
+	    static createFrom(source: any = {}) {
+	        return new FileEntry(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.isDir = source["isDir"];
+	    }
+	}
 	export class ProcessInfo {
 	    pid: string;
 	    user: string;

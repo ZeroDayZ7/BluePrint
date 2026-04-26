@@ -7,6 +7,7 @@
   import Checkbox from "../components/Checkbox.svelte";
   import IconButton from "../components/IconButton.svelte";
   import ActionButton from "../components/ActionButton.svelte";
+  import IndexBadge from "../components/IndexBadge.svelte";
 
   let showUserApps = $state(true);
   let isLoading = $state(false);
@@ -145,7 +146,7 @@
           <div
             class="group flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800/40 border border-transparent hover:border-slate-800 transition-all"
           >
-            <span class="text-[9px] font-bold text-slate-700 w-4">{i + 1}</span>
+            <IndexBadge value={i + 1} class="w-4" />
 
             <Checkbox
               checked={selectedPackages.has(app)}

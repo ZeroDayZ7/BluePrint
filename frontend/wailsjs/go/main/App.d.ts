@@ -10,4 +10,6 @@ export function GetProcesses(arg1:string):Promise<Array<main.ProcessInfo>>;
 
 export function KillProcess(arg1:string,arg2:string):Promise<string>;
 
+export function ListFiles(arg1:string,arg2:string):Promise<Array<main.FileEntry>>;
+
 export function StartMirroring(arg1:string):Promise<string>;
