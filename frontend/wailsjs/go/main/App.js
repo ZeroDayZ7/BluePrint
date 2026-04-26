@@ -18,8 +18,8 @@ export function KillProcess(arg1, arg2) {
   return window['go']['main']['App']['KillProcess'](arg1, arg2);
 }
 
-export function ListFiles(arg1, arg2) {
-  return window['go']['main']['App']['ListFiles'](arg1, arg2);
+export function ListFiles(arg1, arg2, arg3) {
+  return window['go']['main']['App']['ListFiles'](arg1, arg2, arg3);
 }
 
 export function StartMirroring(arg1) {

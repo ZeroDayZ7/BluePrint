@@ -6,9 +6,9 @@
   import { untrack } from "svelte";
 
   let isLoading = $state(false);
+  let showHidden = $state(false);
   let searchQuery = $state("");
 
-  // Reaktywne pobieranie plików z cache lub backendu
   let files = $derived(
     deviceState.activeDevice
       ? deviceState.filesCache[deviceState.activeDevice.id]?.[
@@ -23,6 +23,12 @@
     ),
   );
 
+  $effect(() => {
+    if (showHidden !== undefined) {
+      untrack(() => loadDirectory(deviceState.currentPath, true));
+    }
+  });
+
   async function loadDirectory(path: string, force = false) {
     const device = deviceState.activeDevice;
     if (!device || isLoading) return;
@@ -34,8 +40,12 @@
 
     isLoading = true;
     try {
-      // @ts-ignore - Wywołanie wygenerowanego backendu Wails
-      const result = await window.go.main.App.ListFiles(device.id, path);
+      // @ts-ignore - Teraz przesyłamy 3 parametry do Go
+      const result = await window.go.main.App.ListFiles(
+        device.id,
+        path,
+        showHidden,
+      );
 
       untrack(() => {
         if (!deviceState.filesCache[device.id])
@@ -44,7 +54,7 @@
         deviceState.currentPath = path;
       });
     } catch (err) {
-      console.error("FS Error:", err);
+      console.error(err);
     } finally {
       isLoading = false;
     }
@@ -56,7 +66,6 @@
     loadDirectory("/" + parts.join("/"));
   }
 
-  // Funkcja pomocnicza do nawigacji klawiaturą (a11y)
   function handleKeydown(e: KeyboardEvent, file: any) {
     if (e.key === "Enter" && file.isDir) {
       loadDirectory(
@@ -80,27 +89,51 @@
   onRefresh={() => loadDirectory(deviceState.currentPath, true)}
 >
   {#snippet headerExtra()}
-    <div class="flex items-center gap-2">
-      <button
-        onclick={navigateUp}
-        title="Go back"
-        aria-label="Navigate up"
-        class="p-1.5 hover:bg-slate-800 rounded-md text-slate-400 transition-colors"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" /></svg
+    <div class="flex items-center gap-4">
+      <label class="flex items-center gap-2 cursor-pointer group select-none">
+        <div class="relative">
+          <input
+            type="checkbox"
+            bind:checked={showHidden}
+            class="sr-only peer"
+          />
+          <div
+            class="w-7 h-4 bg-slate-800 rounded-full peer peer-checked:bg-blue-600 transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-400 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-3 peer-checked:after:bg-white"
+          ></div>
+        </div>
+        <span
+          class="text-[10px] font-bold text-slate-500 group-hover:text-slate-300 uppercase tracking-widest transition-colors"
         >
-      </button>
-      <div
-        class="bg-slate-900/50 px-3 py-1 rounded-md border border-slate-800 text-[11px] font-mono text-slate-400"
-      >
-        {deviceState.currentPath}
+          Hidden
+        </span>
+      </label>
+
+      <div class="h-4 w-[1px] bg-slate-800/50"></div>
+
+      <div class="flex items-center gap-2">
+        <button
+          onclick={navigateUp}
+          title="Go back"
+          aria-label="Navigate up"
+          class="p-1.5 hover:bg-slate-800 rounded-md text-slate-400 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
+          </svg>
+        </button>
+        <div
+          class="bg-slate-900/50 px-3 py-1 rounded-md border border-slate-800 text-[11px] font-mono text-slate-400"
+        >
+          {deviceState.currentPath}
+        </div>
       </div>
     </div>
   {/snippet}
@@ -190,18 +223,14 @@
                 icon="zap"
                 label=""
                 title="Download"
-                onclick={() => {
-                  /* Pull file */
-                }}
+                onclick={(e) => e.stopPropagation()}
               />
               <ActionButton
                 icon="trash"
                 variant="danger"
                 label=""
                 title="Delete"
-                onclick={() => {
-                  /* Delete */
-                }}
+                onclick={(e) => e.stopPropagation()}
               />
             </div>
           </div>

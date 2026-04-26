@@ -34,8 +34,13 @@ func KillProcess(adbPath string, deviceID string, pid string) error {
 	return cmd.Run()
 }
 
-func FetchFiles(adbPath string, deviceID string, path string) (string, error) {
-	args := []string{"-s", deviceID, "shell", "ls", "-p", path}
+func FetchFiles(adbPath string, deviceID string, path string, showHidden bool) (string, error) {
+	lsCmd := "ls -p"
+	if showHidden {
+		lsCmd = "ls -ap"
+	}
+
+	args := []string{"-s", deviceID, "shell", lsCmd, path}
 	cmd := exec.Command(adbPath, args...)
 	out, err := cmd.Output()
 	return string(out), err

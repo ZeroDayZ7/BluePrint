@@ -229,11 +229,11 @@ func (a *App) KillProcess(deviceID string, pid string) string {
 	return "Success"
 }
 
-func (a *App) ListFiles(deviceID string, path string) []FileEntry {
+func (a *App) ListFiles(deviceID string, path string, showHidden bool) []FileEntry {
 	adbPath := a.getToolPath("adb")
 
 	// Pobieramy surowe dane z modułu adb
-	raw, err := adb.FetchFiles(adbPath, deviceID, path)
+	raw, err := adb.FetchFiles(adbPath, deviceID, path, showHidden)
 	if err != nil {
 		log.Println("ERROR ListFiles:", err)
 		return []FileEntry{}
