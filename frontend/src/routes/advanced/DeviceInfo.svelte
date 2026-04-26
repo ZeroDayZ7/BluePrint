@@ -11,6 +11,7 @@
     Factory,
     Hash,
   } from "lucide-svelte";
+  import PropertyTable from "../../components/PropertyTable.svelte";
 
   let searchQuery = $state("");
   let isLoading = $state(false);
@@ -125,40 +126,7 @@
         bind:searchQuery
         onRefresh={loadData}
       >
-        <div
-          class="h-full overflow-y-auto custom-scrollbar rounded-xl border border-slate-800/50 bg-[#0b0e14]/50"
-        >
-          <table class="w-full text-left text-[11px] border-collapse relative">
-            <thead
-              class="sticky top-0 bg-[#161b22] border-b border-slate-800 z-10"
-            >
-              <tr>
-                <th
-                  class="px-4 py-2.5 font-bold text-slate-500 uppercase tracking-tighter w-1/2"
-                  >Key</th
-                >
-                <th
-                  class="px-4 py-2.5 font-bold text-slate-500 uppercase tracking-tighter w-1/2"
-                  >Value</th
-                >
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/50">
-              {#each filteredProps as prop}
-                <tr class="hover:bg-blue-500/5 transition-colors group">
-                  <td
-                    class="px-4 py-2 font-mono text-slate-500 group-hover:text-blue-400 break-all border-r border-slate-800/30"
-                  >
-                    {prop.key}
-                  </td>
-                  <td class="px-4 py-2 font-mono text-slate-300 break-all">
-                    {prop.value}
-                  </td>
-                </tr>
-              {/each}
-            </tbody>
-          </table>
-        </div>
+        <PropertyTable items={filteredProps} />
       </ListContainer>
     </div>
   {/if}

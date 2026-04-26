@@ -29,11 +29,11 @@
 >
   <div class="flex items-center justify-between mb-4">
     <div class="flex flex-col">
-      <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">
+      <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">
         {title}
       </h3>
       <span
-        class="text-[10px] text-slate-600 font-medium truncate max-w-[200px]"
+        class="text-[10px] text-slate-400 font-medium truncate max-w-[200px]"
       >
         {subtitle}
       </span>
