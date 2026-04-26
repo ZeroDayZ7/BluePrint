@@ -8,6 +8,10 @@
   let isLoading = $state(false);
   let showHidden = $state(false);
   let searchQuery = $state("");
+  let storagePoints = $state<string[]>(["/sdcard"]);
+
+  // Stan dla potwierdzenia usuwania (przechowuje nazwę pliku)
+  let pendingDelete = $state<string | null>(null);
 
   let files = $derived(
     deviceState.activeDevice
@@ -22,6 +26,27 @@
       f.name.toLowerCase().includes(searchQuery.toLowerCase()),
     ),
   );
+
+  $effect(() => {
+    if (deviceState.isConnected && deviceState.activeDevice) {
+      // @ts-ignore
+      window.go.main.App.GetStoragePoints(deviceState.activeDevice.id).then(
+        (points) => {
+          storagePoints = points;
+        },
+      );
+    }
+  });
+
+  async function changeStorage(newPath: string) {
+    if (!deviceState.activeDevice) return;
+
+    deviceState.currentPath = newPath;
+
+    if (!deviceState.getCachedFiles(deviceState.activeDevice.id, newPath)) {
+      await loadDirectory(newPath, true);
+    }
+  }
 
   $effect(() => {
     if (showHidden !== undefined) {
@@ -40,7 +65,7 @@
 
     isLoading = true;
     try {
-      // @ts-ignore - Teraz przesyłamy 3 parametry do Go
+      // @ts-ignore
       const result = await window.go.main.App.ListFiles(
         device.id,
         path,
@@ -57,6 +82,47 @@
       console.error(err);
     } finally {
       isLoading = false;
+    }
+  }
+
+  async function downloadFile(file: any) {
+    const fullPath = `${deviceState.currentPath}/${file.name}`.replace(
+      /\/+/g,
+      "/",
+    );
+    // @ts-ignore
+    await window.go.main.App.DownloadFile(
+      deviceState.activeDevice!.id,
+      fullPath,
+      file.name,
+    );
+  }
+
+  async function handleDelete(file: any) {
+    // Jeśli plik nie był wcześniej kliknięty - uzbrój usunięcie
+    if (pendingDelete !== file.name) {
+      pendingDelete = file.name;
+      // Auto-reset po 3 sekundach braku akcji
+      setTimeout(() => {
+        if (pendingDelete === file.name) pendingDelete = null;
+      }, 3000);
+      return;
+    }
+
+    // Drugie kliknięcie - wykonaj faktyczne usunięcie
+    const fullPath = `${deviceState.currentPath}/${file.name}`.replace(
+      /\/+/g,
+      "/",
+    );
+    // @ts-ignore
+    const success = await window.go.main.App.DeleteFile(
+      deviceState.activeDevice!.id,
+      fullPath,
+    );
+
+    if (success) {
+      pendingDelete = null;
+      loadDirectory(deviceState.currentPath, true);
     }
   }
 
@@ -114,7 +180,6 @@
         <button
           onclick={navigateUp}
           title="Go back"
-          aria-label="Navigate up"
           class="p-1.5 hover:bg-slate-800 rounded-md text-slate-400 transition-colors"
         >
           <svg
@@ -124,10 +189,8 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" /></svg
           >
-            <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
-          </svg>
         </button>
         <div
           class="bg-slate-900/50 px-3 py-1 rounded-md border border-slate-800 text-[11px] font-mono text-slate-400"
@@ -139,7 +202,23 @@
   {/snippet}
 
   {#snippet searchActions()}
-    <div class="w-2"></div>
+    <div class="flex items-center">
+      <select
+        value={storagePoints.find((p) =>
+          deviceState.currentPath.startsWith(p),
+        ) || "/sdcard"}
+        onchange={(e) => changeStorage(e.currentTarget.value)}
+        class="bg-slate-800 border border-slate-700 text-[10px] text-slate-300 rounded px-2 py-1.5 outline-none focus:border-blue-500/50 transition-all cursor-pointer hover:bg-slate-700 appearance-none"
+      >
+        {#each storagePoints as point}
+          <option value={point} class="bg-slate-800 text-slate-300 py-1">
+            {point === "/sdcard"
+              ? "📱 Internal Storage"
+              : `💾 SD Card (${point.split("/").pop()})`}
+          </option>
+        {/each}
+      </select>
+    </div>
   {/snippet}
 
   <div class="h-[310px] overflow-y-auto custom-scrollbar">
@@ -148,7 +227,9 @@
     >
       <div class="col-span-7">Name</div>
       <div class="col-span-2 text-center">Type</div>
-      <div class="col-span-3 text-right">Actions</div>
+      <div class="col-span-3 text-right text-red-500/50 italic">
+        {pendingDelete ? "Click again to confirm delete" : "Actions"}
+      </div>
     </div>
 
     {#if isLoading}
@@ -220,21 +301,38 @@
 
             <div class="col-span-3 flex justify-end gap-1">
               <ActionButton
-                icon="zap"
+                icon="download"
                 label=""
                 title="Download"
-                onclick={(e) => e.stopPropagation()}
+                disabled={pendingDelete !== null}
+                onclick={(e) => {
+                  e.stopPropagation();
+                  downloadFile(file);
+                }}
               />
               <ActionButton
                 icon="trash"
                 variant="danger"
-                label=""
-                title="Delete"
-                onclick={(e) => e.stopPropagation()}
+                label={pendingDelete === file.name ? "SURE?" : ""}
+                title={pendingDelete === file.name
+                  ? "Confirm Delete"
+                  : "Delete"}
+                onclick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(file);
+                }}
               />
             </div>
           </div>
         {/each}
+
+        {#if filteredFiles.length === 0}
+          <div
+            class="p-8 text-center text-slate-600 text-[10px] uppercase tracking-widest italic"
+          >
+            No files found
+          </div>
+        {/if}
       </div>
     {/if}
   </div>

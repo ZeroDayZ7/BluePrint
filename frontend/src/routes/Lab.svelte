@@ -17,8 +17,6 @@
     bind:searchQuery
     onRefresh={() => console.log("Refreshed Lab")}
     searchPlaceholder="Search lab items..."
-    headerExtra={() => {}}
-    searchActions={() => []}
   >
     <div
       class="p-8 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-900/20"

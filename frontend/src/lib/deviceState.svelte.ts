@@ -1,4 +1,3 @@
-// src/lib/deviceState.svelte.ts
 interface Device {
   id: string;
   model: string;
@@ -29,9 +28,23 @@ class DeviceState {
     return this.filesCache[deviceId]?.[path] || null;
   }
 
+  clearPathCache(deviceId: string, path: string) {
+    if (this.filesCache[deviceId]) {
+      delete this.filesCache[deviceId][path];
+    }
+  }
+
   activeDevice = $derived(
     this.devices.length > 0 ? this.devices[this.selectedDeviceIndex] : null,
   );
+
+  #deviceWatcher = $effect.root(() => {
+    $effect(() => {
+      if (this.activeDevice) {
+        this.currentPath = "/sdcard";
+      }
+    });
+  });
 
   displayStatus = $derived.by(() => {
     const device = this.activeDevice;

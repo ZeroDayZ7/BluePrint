@@ -45,3 +45,19 @@ func FetchFiles(adbPath string, deviceID string, path string, showHidden bool) (
 	out, err := cmd.Output()
 	return string(out), err
 }
+
+func PullFile(adbPath, deviceID, remotePath, localPath string) error {
+	cmd := exec.Command(adbPath, "-s", deviceID, "pull", remotePath, localPath)
+	return cmd.Run()
+}
+
+func RemoveItem(adbPath, deviceID, path string) error {
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "rm", "-rf", path)
+	return cmd.Run()
+}
+
+func FetchStoragePoints(adbPath string, deviceID string) (string, error) {
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "ls", "/storage")
+	out, err := cmd.Output()
+	return string(out), err
+}

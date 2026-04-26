@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type App struct {
@@ -232,12 +234,16 @@ func (a *App) KillProcess(deviceID string, pid string) string {
 func (a *App) ListFiles(deviceID string, path string, showHidden bool) []FileEntry {
 	adbPath := a.getToolPath("adb")
 
-	// Pobieramy surowe dane z modułu adb
 	raw, err := adb.FetchFiles(adbPath, deviceID, path, showHidden)
-	if err != nil {
-		log.Println("ERROR ListFiles:", err)
+
+	log.Printf("DEBUG ADB RAW for %s: [%s]", path, raw)
+
+	// ROZWIĄZANIE: Przerywamy tylko wtedy, gdy jest błąd ORAZ nie ma żadnych danych w `raw`
+	if err != nil && strings.TrimSpace(raw) == "" {
+		log.Println("ERROR ListFiles (no data):", err)
 		return []FileEntry{}
 	}
+    // Jeśli err != nil, ale raw ma dane, ignorujemy błąd i lecimy dalej!
 
 	var files []FileEntry
 	lines := strings.Split(raw, "\n")
@@ -245,12 +251,10 @@ func (a *App) ListFiles(deviceID string, path string, showHidden bool) []FileEnt
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
 
-		// Pomijamy puste linie i błędy uprawnień
-		if line == "" || strings.Contains(line, "Permission denied") {
+		if line == "" || strings.Contains(line, "Permission denied") || strings.Contains(line, "No such file") {
 			continue
 		}
 
-		// Jeśli nazwa kończy się na /, to jest to katalog (dzięki flagi -p w ls)
 		isDir := strings.HasSuffix(line, "/")
 		name := strings.TrimSuffix(line, "/")
 
@@ -262,4 +266,60 @@ func (a *App) ListFiles(deviceID string, path string, showHidden bool) []FileEnt
 
 	log.Printf("DEBUG: Found %d files in %s", len(files), path)
 	return files
+}
+
+func (a *App) DownloadFile(deviceID string, remotePath string, fileName string) string {
+	adbPath := a.getToolPath("adb")
+
+	localPath, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
+		DefaultFilename: fileName,
+		Title:           "Gdzie zapisać plik?",
+	})
+
+	if err != nil || localPath == "" {
+		return "Cancelled"
+	}
+
+	err = adb.PullFile(adbPath, deviceID, remotePath, localPath)
+	if err != nil {
+		return "Error: " + err.Error()
+	}
+	return "Success"
+}
+
+func (a *App) DeleteFile(deviceID string, path string) bool {
+	adbPath := a.getToolPath("adb")
+	err := adb.RemoveItem(adbPath, deviceID, path)
+	if err != nil {
+		log.Printf("ERROR: Delete failed: %v", err)
+		return false
+	}
+	return true
+}
+
+func (a *App) GetStoragePoints(deviceID string) []string {
+	adbPath := a.getToolPath("adb")
+	raw, err := adb.FetchStoragePoints(adbPath, deviceID)
+
+	storageList := []string{"/sdcard"}
+
+	if err != nil {
+		log.Println("ERROR GetStoragePoints:", err)
+		return storageList
+	}
+
+	lines := strings.Split(raw, "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+
+		// ROZWIĄZANIE: Dodano warunek strings.Contains(line, "enc_")
+		if line == "" || line == "self" || line == "emulated" || line == "container" || strings.Contains(line, "enc_") {
+			continue
+		}
+
+		storageList = append(storageList, "/storage/"+line)
+	}
+
+	log.Printf("DEBUG: Found storage points for %s: %v", deviceID, storageList)
+	return storageList
 }
