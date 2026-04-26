@@ -2,6 +2,7 @@
 package adb
 
 import (
+	"log"
 	"os/exec"
 )
 
@@ -59,5 +60,25 @@ func RemoveItem(adbPath, deviceID, path string) error {
 func FetchStoragePoints(adbPath string, deviceID string) (string, error) {
 	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "ls", "/storage")
 	out, err := cmd.Output()
+	return string(out), err
+}
+
+func FetchDeviceProps(adbPath string, deviceID string) (string, error) {
+	log.Printf("DEBUG: Executing getprop for device: %s", deviceID)
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "getprop")
+	out, err := cmd.Output()
+	if err != nil {
+		log.Printf("ERROR: FetchDeviceProps failed: %v", err)
+	}
+	return string(out), err
+}
+
+func FetchBatteryStatus(adbPath string, deviceID string) (string, error) {
+	log.Printf("DEBUG: Executing dumpsys battery for device: %s", deviceID)
+	cmd := exec.Command(adbPath, "-s", deviceID, "shell", "dumpsys", "battery")
+	out, err := cmd.Output()
+	if err != nil {
+		log.Printf("ERROR: FetchBatteryStatus failed: %v", err)
+	}
 	return string(out), err
 }

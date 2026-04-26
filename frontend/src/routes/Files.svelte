@@ -11,8 +11,6 @@
   let showHidden = $state(false);
   let searchQuery = $state("");
   let storagePoints = $state<string[]>(["/sdcard"]);
-
-  // Stan dla potwierdzenia usuwania (przechowuje nazwę pliku)
   let pendingDelete = $state<string | null>(null);
 
   let files = $derived(

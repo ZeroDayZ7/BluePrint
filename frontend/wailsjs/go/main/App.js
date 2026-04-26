@@ -10,6 +10,10 @@ export function DownloadFile(arg1, arg2, arg3) {
   return window['go']['main']['App']['DownloadFile'](arg1, arg2, arg3);
 }
 
+export function GetDeviceInfo(arg1) {
+  return window['go']['main']['App']['GetDeviceInfo'](arg1);
+}
+
 export function GetDevices() {
   return window['go']['main']['App']['GetDevices']();
 }

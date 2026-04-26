@@ -4,6 +4,7 @@ import (
 	"BluePrint/backend/adb"
 	"BluePrint/backend/mirror"
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -33,6 +34,22 @@ type ProcessInfo struct {
 type FileEntry struct {
 	Name  string `json:"name"`
 	IsDir bool   `json:"isDir"`
+}
+
+type DeviceProp struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type DeviceInfoResponse struct {
+	Model        string       `json:"model"`
+	Manufacturer string       `json:"manufacturer"`
+	AndroidVer   string       `json:"androidVer"`
+	APILevel     string       `json:"apiLevel"`
+	CPU          string       `json:"cpu"`
+	Serial       string       `json:"serial"`
+	Battery      string       `json:"battery"`
+	AllProps     []DeviceProp `json:"allProps"`
 }
 
 func NewApp() *App {
@@ -243,7 +260,7 @@ func (a *App) ListFiles(deviceID string, path string, showHidden bool) []FileEnt
 		log.Println("ERROR ListFiles (no data):", err)
 		return []FileEntry{}
 	}
-    // Jeśli err != nil, ale raw ma dane, ignorujemy błąd i lecimy dalej!
+	// Jeśli err != nil, ale raw ma dane, ignorujemy błąd i lecimy dalej!
 
 	var files []FileEntry
 	lines := strings.Split(raw, "\n")
@@ -322,4 +339,71 @@ func (a *App) GetStoragePoints(deviceID string) []string {
 
 	log.Printf("DEBUG: Found storage points for %s: %v", deviceID, storageList)
 	return storageList
+}
+
+func (a *App) GetDeviceInfo(deviceID string) DeviceInfoResponse {
+	fmt.Println("!!! FRONTEND MNIE WYWOŁAŁ !!! ID:", deviceID)
+	log.Printf("INFO: Starting GetDeviceInfo for ID: %s", deviceID)
+	adbPath := a.getToolPath("adb")
+	data := DeviceInfoResponse{
+		Battery: "Unknown",
+	}
+
+	rawProps, err := adb.FetchDeviceProps(adbPath, deviceID)
+	if err != nil {
+		log.Printf("ERROR: GetDeviceInfo/FetchDeviceProps: %v", err)
+	} else {
+		lines := strings.Split(rawProps, "\n")
+		propMap := make(map[string]string)
+
+		for _, line := range lines {
+			line = strings.TrimSpace(line)
+			if line == "" {
+				continue
+			}
+
+			parts := strings.SplitN(line, ": ", 2)
+			if len(parts) == 2 {
+				key := strings.Trim(parts[0], "[]")
+				val := strings.Trim(parts[1], "[]")
+				propMap[key] = val
+				data.AllProps = append(data.AllProps, DeviceProp{Key: key, Value: val})
+			}
+		}
+
+		data.Model = propMap["ro.product.model"]
+		data.Manufacturer = propMap["ro.product.manufacturer"]
+		data.AndroidVer = propMap["ro.build.version.release"]
+		data.APILevel = propMap["ro.build.version.sdk"]
+		data.CPU = propMap["ro.product.cpu.abi"]
+		data.Serial = propMap["ro.serialno"]
+
+		log.Printf("DEBUG: Parsed %d properties for model: %s", len(data.AllProps), data.Model)
+	}
+
+	rawBat, err := adb.FetchBatteryStatus(adbPath, deviceID)
+	if err != nil {
+		log.Printf("ERROR: GetDeviceInfo/FetchBatteryStatus: %v", err)
+	} else {
+		lines := strings.Split(rawBat, "\n")
+		foundBattery := false
+		for _, line := range lines {
+			line = strings.TrimSpace(line)
+			if strings.HasPrefix(line, "level:") {
+				parts := strings.Split(line, ":")
+				if len(parts) == 2 {
+					data.Battery = strings.TrimSpace(parts[1]) + "%"
+					log.Printf("DEBUG: Battery level found: %s", data.Battery)
+					foundBattery = true
+				}
+				break
+			}
+		}
+		if !foundBattery {
+			log.Printf("WARN: Battery level not found in dumpsys output")
+		}
+	}
+
+	log.Printf("INFO: Finished GetDeviceInfo for %s (%s)", data.Model, deviceID)
+	return data
 }
