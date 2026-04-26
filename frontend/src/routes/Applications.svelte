@@ -84,7 +84,9 @@
   onRefresh={() => loadApps(true)}
 >
   {#snippet headerExtra()}
-    <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+    <div
+      class="flex bg-slate-900 rounded-lg p-0.5 font-bold border border-slate-800"
+    >
       <button
         class="px-2 py-0.5 text-[9px] rounded-md transition-all {showUserApps
           ? 'bg-blue-600 text-white'

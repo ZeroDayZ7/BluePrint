@@ -8,8 +8,11 @@
     "**/package-lock.json": true,
     "**/package.json.md5": true,
     "**/vite-env.d.ts": true,
-    "**/frontend/dist": true
-    // "README.md": true
+    "**/frontend/dist": true,
+    "CONTRIBUTORS.md": true,
+    "LICENSE": true,
+    "assets/": true,
+    "README.md": true
   },
 
   "search.exclude": {
@@ -23,6 +26,9 @@
     "**/package.json.md5": true,
     "**/vite-env.d.ts": true,
     "**/frontend/dist": true,
+    "CONTRIBUTORS.md": true,
+    "LICENSE": true,
+    "assets/": true,
     "README.md": true
   },
   "go.formatTool": "gofmt",

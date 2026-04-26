@@ -6,7 +6,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [tailwindcss(), svelte()],
   resolve: {
-    // To pozwoli Ci używać skrótu $lib w importach (plan PRO)
     alias: {
       $lib: "/src/lib",
     },

@@ -81,8 +81,6 @@
   searchPlaceholder="Filter by name or PID..."
   bind:searchQuery
   onRefresh={refreshProcesses}
-  headerExtra={() => {}}
-  searchActions={() => {}}
 >
   <div
     class="grid grid-cols-12 px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-tighter border-b border-slate-800/50 bg-slate-900/20 rounded-t-lg"
