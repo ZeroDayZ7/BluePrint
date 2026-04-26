@@ -18,7 +18,7 @@ The suite operates on a high-performance hybrid architecture:
 * **UI Engine:** Svelte 5 (Runes) for ultra-efficient, reactive state management and high-density data rendering.
 * **Bridge:** Wails IPC for secure, high-speed asynchronous communication between the native Go backend and the web-based frontend.
 
-### 🖥️ BluePrint UI Showcase
+### 🖥️ BluePrint UI Showcase [Explore Interface Gallery](assets/PHOTOS.md)
 
 <p align="center">
   <img src="assets/BluePrint.gif" alt="BluePrint Preview" width="600">
