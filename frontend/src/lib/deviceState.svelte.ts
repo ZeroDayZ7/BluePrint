@@ -13,16 +13,37 @@ interface FileEntry {
   path: string;
 }
 
+interface DeviceInfo {
+  model: string;
+  manufacturer: string;
+  androidVer: string;
+  apiLevel: string;
+  cpu: string;
+  battery: string;
+  serial: string;
+}
+
 class DeviceState {
   devices = $state<Device[]>([]);
   selectedDeviceIndex = $state(0);
   isRefreshing = $state(false);
 
+  deviceInfoCache = $state<Record<string, DeviceInfo>>({});
+  systemPropsCache = $state<Record<string, { key: string; value: string }[]>>(
+    {},
+  );
   userAppsCache = $state<Record<string, string[]>>({});
   systemAppsCache = $state<Record<string, string[]>>({});
   processesCache = $state<Record<string, any[]>>({});
   filesCache = $state<Record<string, Record<string, FileEntry[]>>>({});
   currentPath = $state("/sdcard");
+
+  clearDeviceCache(deviceId: string) {
+    delete this.deviceInfoCache[deviceId];
+    delete this.systemPropsCache[deviceId];
+    delete this.userAppsCache[deviceId];
+    delete this.systemAppsCache[deviceId];
+  }
 
   getCachedFiles(deviceId: string, path: string) {
     return this.filesCache[deviceId]?.[path] || null;
@@ -37,14 +58,6 @@ class DeviceState {
   activeDevice = $derived(
     this.devices.length > 0 ? this.devices[this.selectedDeviceIndex] : null,
   );
-
-  #deviceWatcher = $effect.root(() => {
-    $effect(() => {
-      if (this.activeDevice) {
-        this.currentPath = "/sdcard";
-      }
-    });
-  });
 
   displayStatus = $derived.by(() => {
     const device = this.activeDevice;
