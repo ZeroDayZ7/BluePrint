@@ -1,10 +1,12 @@
 <script lang="ts">
+  import type { Component } from "svelte";
+
   interface Props {
     label: string;
     value: string | number;
     subValue?: string;
     variant?: "default" | "blue" | "green" | "amber";
-    icon?: any;
+    icon?: Component;
   }
 
   let {

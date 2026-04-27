@@ -2,16 +2,24 @@
   import { deviceState } from "../lib/deviceState.svelte";
   import ListContainer from "../components/ListContainer.svelte";
   import IndexBadge from "../components/IndexBadge.svelte";
-  import ActionButton from "../components/ActionButton.svelte";
   import { untrack } from "svelte";
   import Button from "../components/Button.svelte";
   import Breadcrumbs from "../components/Breadcrumbs.svelte";
+  import { Download, Trash2 } from "lucide-svelte";
 
   let isLoading = $state(false);
   let showHidden = $state(false);
   let searchQuery = $state("");
   let storagePoints = $state<string[]>(["/sdcard"]);
   let pendingDelete = $state<string | null>(null);
+
+  interface FileItem {
+    name: string;
+    path: string;
+    isDir: boolean;
+    size: string;
+    modifiedAt?: string;
+  }
 
   let files = $derived(
     deviceState.activeDevice
@@ -85,7 +93,7 @@
     }
   }
 
-  async function downloadFile(file: any) {
+  async function downloadFile(file: FileItem) {
     const fullPath = `${deviceState.currentPath}/${file.name}`.replace(
       /\/+/g,
       "/",
@@ -98,7 +106,7 @@
     );
   }
 
-  async function handleDelete(file: any) {
+  async function handleDelete(file: FileItem) {
     // Jeśli plik nie był wcześniej kliknięty - uzbrój usunięcie
     if (pendingDelete !== file.name) {
       pendingDelete = file.name;
@@ -132,7 +140,7 @@
     loadDirectory("/" + parts.join("/"));
   }
 
-  function handleKeydown(e: KeyboardEvent, file: any) {
+  function handleKeydown(e: KeyboardEvent, file: FileItem) {
     if (e.key === "Enter" && file.isDir) {
       loadDirectory(
         `${deviceState.currentPath}/${file.name}`.replace(/\/+/g, "/"),
@@ -282,28 +290,37 @@
             </div>
 
             <div class="col-span-3 flex justify-end gap-1">
-              <ActionButton
-                icon="download"
-                label=""
+              <Button
+                variant="action"
+                size="icon"
                 title="Download"
                 disabled={pendingDelete !== null}
-                onclick={(e) => {
+                onclick={(e: MouseEvent) => {
                   e.stopPropagation();
                   downloadFile(file);
                 }}
-              />
-              <ActionButton
-                icon="trash"
-                variant="danger"
-                label={pendingDelete === file.name ? "SURE?" : ""}
+              >
+                <Download size={14} strokeWidth={2.5} />
+              </Button>
+
+              <Button
+                variant={pendingDelete === file.name
+                  ? "danger"
+                  : "actionDanger"}
+                size={pendingDelete === file.name ? "sm" : "icon"}
                 title={pendingDelete === file.name
                   ? "Confirm Delete"
                   : "Delete"}
-                onclick={(e) => {
+                onclick={(e: MouseEvent) => {
                   e.stopPropagation();
                   handleDelete(file);
                 }}
-              />
+              >
+                <Trash2 size={14} strokeWidth={2.5} />
+                {#if pendingDelete === file.name}
+                  <span class="ml-1">SURE?</span>
+                {/if}
+              </Button>
             </div>
           </div>
         {/each}

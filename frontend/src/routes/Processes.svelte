@@ -4,8 +4,9 @@
   import { untrack } from "svelte";
   import ListContainer from "../components/ListContainer.svelte";
   import Loader from "../components/Loader.svelte";
-  import ActionButton from "../components/ActionButton.svelte";
   import IndexBadge from "../components/IndexBadge.svelte";
+  import Button from "../components/Button.svelte";
+  import { Zap } from "lucide-svelte";
 
   let isLoading = $state(false);
   let searchQuery = $state("");
@@ -137,11 +138,20 @@
                 </svg>
               </button>
 
-              <ActionButton
-                label="Kill"
-                icon="zap"
+              <Button
+                variant="action"
+                size="sm"
+                title="Kill Process"
                 onclick={() => handleKill(proc.pid)}
-              />
+              >
+                <Zap
+                  size={12}
+                  strokeWidth={2.5}
+                  fill="currentColor"
+                  class="text-amber-400"
+                />
+                <span>Kill</span>
+              </Button>
             </div>
           </div>
         {/each}

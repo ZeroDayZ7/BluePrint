@@ -5,9 +5,9 @@
   import ListContainer from "../components/ListContainer.svelte";
   import Loader from "../components/Loader.svelte";
   import Checkbox from "../components/Checkbox.svelte";
-  import IconButton from "../components/IconButton.svelte";
-  import ActionButton from "../components/ActionButton.svelte";
   import IndexBadge from "../components/IndexBadge.svelte";
+  import Button from "../components/Button.svelte";
+  import { Trash2 } from "lucide-svelte";
 
   let showUserApps = $state(true);
   let isLoading = $state(false);
@@ -116,9 +116,10 @@
         ? "opacity-20 grayscale pointer-events-none"
         : "transition-all"}
     >
-      <IconButton
+      <Button
         onclick={handleBulkDelete}
         variant="danger"
+        size="icon"
         title="Uninstall selected"
       >
         <svg
@@ -129,11 +130,14 @@
           fill="none"
           stroke="currentColor"
           stroke-width="2"
-          ><path d="M3 6h18" /><path
-            d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
-          /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
-      </IconButton>
+          <path d="M3 6h18" />
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+        </svg>
+      </Button>
     </div>
   {/snippet}
 
@@ -161,11 +165,14 @@
               {app}
             </span>
 
-            <ActionButton
-              label="Uninstall"
-              icon="trash"
+            <Button
+              variant="action"
+              size="sm"
               onclick={() => handleSingleUninstall(app)}
-            />
+            >
+              <Trash2 size={12} strokeWidth={2.5} />
+              <span>Uninstall</span>
+            </Button>
           </div>
         {/each}
       </div>

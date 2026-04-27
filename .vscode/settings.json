@@ -27,6 +27,7 @@
     "**/vite-env.d.ts": true,
     "**/frontend/dist": true,
     "CONTRIBUTORS.md": true,
+    "**/combined.txt": true,
     "LICENSE": true,
     "assets/": true,
     "README.md": true
