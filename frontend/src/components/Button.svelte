@@ -42,7 +42,7 @@
   };
 
   const sizes: Record<ButtonSize, string> = {
-    sm: "px-2 py-1 text-xxs uppercase tracking-blueprint",
+    sm: "px-2 py-1 text-xs uppercase tracking-blueprint",
     md: "px-4 py-2 text-sm",
     lg: "px-6 py-3 text-base",
     icon: "p-2",

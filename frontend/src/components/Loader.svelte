@@ -29,7 +29,7 @@
 
   {#if message}
     <p
-      class="text-xxs font-black uppercase tracking-blueprint text-slate-500 animate-pulse"
+      class="text-xs font-black uppercase tracking-blueprint text-slate-500 animate-pulse"
     >
       {message}
     </p>

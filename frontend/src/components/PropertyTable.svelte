@@ -33,7 +33,7 @@
   </table>
 
   <div class="flex-1 overflow-y-auto custom-scrollbar">
-    <table class="w-full text-left text-[11px] border-collapse table-fixed">
+    <table class="w-full text-left text-xs border-collapse table-fixed">
       <tbody class="divide-y divide-slate-800/30">
         {#each items as prop}
           <tr class="hover:bg-blue-500/5 transition-colors group">
