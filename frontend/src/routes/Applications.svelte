@@ -98,28 +98,32 @@
 >
   {#snippet headerExtra()}
     <div
-      class="flex bg-slate-900 rounded-lg p-0.5 font-bold border border-slate-800"
+      class="flex bg-slate-900 rounded-lg p-1 space-x-1 font-bold border border-slate-800"
     >
-      <button
-        class="px-2 py-0.5 text-xs rounded-md transition-all {showUserApps
-          ? 'bg-blue-600 text-white'
-          : 'text-slate-500 hover:text-slate-300'}"
+      <Button
+        variant={showUserApps ? "primary" : "ghost"}
+        size="sm"
+        class=" {showUserApps ? '' : 'text-slate-500'}"
         onclick={() => {
           showUserApps = true;
           selectedPackages.clear();
           loadApps();
-        }}>USER</button
+        }}
       >
-      <button
-        class="px-2 py-0.5 text-xs rounded-md transition-all {!showUserApps
-          ? 'bg-blue-600 text-white'
-          : 'text-slate-500 hover:text-slate-300'}"
+        USER
+      </Button>
+      <Button
+        variant={!showUserApps ? "primary" : "ghost"}
+        size="sm"
+        class=" {!showUserApps ? '' : 'text-slate-500'}"
         onclick={() => {
           showUserApps = false;
           selectedPackages.clear();
           loadApps();
-        }}>SYSTEM</button
+        }}
       >
+        SYSTEM
+      </Button>
     </div>
   {/snippet}
 
@@ -148,7 +152,7 @@
     {:else}
       {#each filteredApps as app, i}
         <div
-          class="group p-1.5 flex items-center gap-3 rounded-lg hover:bg-slate-800/40 border border-transparent hover:border-slate-800"
+          class="group p-1.5 flex items-center gap-3 rounded-lg hover:bg-slate-800/40 hover:border-slate-800"
         >
           <IndexBadge value={i + 1} class="w-4" />
 

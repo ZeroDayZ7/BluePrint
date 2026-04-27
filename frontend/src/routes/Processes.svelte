@@ -100,9 +100,7 @@
       {/snippet}
 
       {#snippet row(proc, i)}
-        <div
-          class="grid grid-cols-12 items-center px-4 py-1.5 transition-all group"
-        >
+        <div class="grid grid-cols-12 items-center px-4 py-1.5 group">
           <div class="col-span-1">
             <IndexBadge value={i + 1} />
           </div>

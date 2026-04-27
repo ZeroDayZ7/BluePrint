@@ -19,9 +19,7 @@
 <div
   class="{height} rounded-md border border-slate-800/50 flex flex-col overflow-hidden"
 >
-  <div
-    class="shrink-0 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm"
-  >
+  <div class="shrink-0 border-b border-slate-800 bg-slate-900/80">
     {@render header()}
   </div>
 

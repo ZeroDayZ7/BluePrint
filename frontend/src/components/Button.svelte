@@ -34,7 +34,6 @@
       "text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-md opacity-0 group-hover:opacity-100",
     actionDanger:
       "text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-md opacity-0 group-hover:opacity-100",
-    // NOWE WARIANTY SYSTEMOWE
     system:
       "text-slate-400 hover:bg-white/10 hover:text-white rounded-none active:scale-100",
     systemDanger:
@@ -42,7 +41,7 @@
   };
 
   const sizes: Record<ButtonSize, string> = {
-    sm: "px-2 py-1 text-xs uppercase tracking-blueprint",
+    sm: "px-2 py-1 text-xs uppercase",
     md: "px-4 py-2 text-sm",
     lg: "px-6 py-3 text-base",
     icon: "p-2",

@@ -108,17 +108,14 @@
   }
 
   async function handleDelete(file: FileItem) {
-    // Jeśli plik nie był wcześniej kliknięty - uzbrój usunięcie
     if (pendingDelete !== file.name) {
       pendingDelete = file.name;
-      // Auto-reset po 3 sekundach braku akcji
       setTimeout(() => {
         if (pendingDelete === file.name) pendingDelete = null;
       }, 3000);
       return;
     }
 
-    // Drugie kliknięcie - wykonaj faktyczne usunięcie
     const fullPath = `${deviceState.currentPath}/${file.name}`.replace(
       /\/+/g,
       "/",
@@ -200,7 +197,7 @@
           deviceState.currentPath.startsWith(p),
         ) || "/sdcard"}
         onchange={(e) => changeStorage(e.currentTarget.value)}
-        class="bg-slate-800 border border-slate-700 text-[10px] text-slate-300 rounded px-2 py-1.5 outline-none focus:border-blue-500/50 transition-all cursor-pointer hover:bg-slate-700 appearance-none"
+        class="bg-slate-800 border border-slate-700 text-xs text-slate-300 rounded px-2 py-1.5 outline-none focus:border-blue-500/50 transition-all cursor-pointer hover:bg-slate-700 appearance-none"
       >
         {#each storagePoints as point}
           <option value={point} class="bg-slate-800 text-slate-300 py-1">
@@ -213,13 +210,13 @@
     </div>
   {/snippet}
 
-  <div class="h-[290px] overflow-y-auto custom-scrollbar">
+  <div class="overflow-y-auto custom-scrollbar">
     <div
       class="grid grid-cols-12 px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-tighter border-b border-slate-800/30 mb-2"
     >
       <div class="col-span-7">Name</div>
       <div class="col-span-2 text-center">Type</div>
-      <div class="col-span-3 text-right text-red-500/50 italic">
+      <div class="col-span-3 text-right text-red-500/70 italic">
         {pendingDelete ? "Click again to confirm delete" : "Actions"}
       </div>
     </div>
@@ -231,110 +228,104 @@
         Accessing filesystem...
       </div>
     {:else}
-      <div class="space-y-0.5">
-        {#each filteredFiles as file}
-          <div
-            role="button"
-            tabindex="0"
-            onclick={() =>
-              file.isDir &&
-              loadDirectory(
-                `${deviceState.currentPath}/${file.name}`.replace(/\/+/g, "/"),
-              )}
-            onkeydown={(e) => handleKeydown(e, file)}
-            class="grid grid-cols-12 items-center px-3 py-2 hover:bg-blue-500/5 rounded-lg group cursor-pointer transition-all border border-transparent hover:border-blue-500/10"
-          >
-            <div class="col-span-7 flex items-center gap-3">
-              {#if file.isDir}
-                <svg
-                  class="text-blue-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  ><path
-                    d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 2h9a2 2 0 0 1 2 2z"
-                  ></path></svg
-                >
-              {:else}
-                <svg
-                  class="text-slate-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  ><path
-                    d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
-                  ></path><polyline points="13 2 13 9 20 9"></polyline></svg
-                >
+      {#each filteredFiles as file}
+        <div
+          role="button"
+          tabindex="0"
+          onclick={() =>
+            file.isDir &&
+            loadDirectory(
+              `${deviceState.currentPath}/${file.name}`.replace(/\/+/g, "/"),
+            )}
+          onkeydown={(e) => handleKeydown(e, file)}
+          class="grid grid-cols-12 items-center px-3 py-2 hover:bg-blue-500/5 rounded-lg group cursor-pointer transition-all border border-transparent hover:border-blue-500/10"
+        >
+          <div class="col-span-7 flex items-center gap-3">
+            {#if file.isDir}
+              <svg
+                class="text-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path
+                  d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 2h9a2 2 0 0 1 2 2z"
+                ></path></svg
+              >
+            {:else}
+              <svg
+                class="text-slate-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path
+                  d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                ></path><polyline points="13 2 13 9 20 9"></polyline></svg
+              >
+            {/if}
+            <span
+              class="text-xs {file.isDir
+                ? 'text-slate-200'
+                : 'text-slate-400'} truncate font-medium"
+            >
+              {file.name}
+            </span>
+          </div>
+
+          <div class="col-span-2 text-center">
+            <IndexBadge value={file.isDir ? "DIR" : "FILE"} />
+          </div>
+
+          <div class="col-span-3 flex justify-end gap-1">
+            <Button
+              variant="action"
+              size="icon"
+              title="Download"
+              disabled={pendingDelete !== null}
+              onclick={(e: MouseEvent) => {
+                e.stopPropagation();
+                downloadFile(file);
+              }}
+            >
+              <Download size={14} strokeWidth={2.5} />
+            </Button>
+
+            <Button
+              variant={pendingDelete === file.name ? "danger" : "actionDanger"}
+              size={pendingDelete === file.name ? "sm" : "icon"}
+              title={pendingDelete === file.name ? "Confirm Delete" : "Delete"}
+              onclick={(e: MouseEvent) => {
+                e.stopPropagation();
+                handleDelete(file);
+              }}
+            >
+              <Trash2 size={14} strokeWidth={2.5} />
+              {#if pendingDelete === file.name}
+                <span class="ml-1">SURE?</span>
               {/if}
-              <span
-                class="text-xs {file.isDir
-                  ? 'text-slate-200'
-                  : 'text-slate-400'} truncate font-medium"
-              >
-                {file.name}
-              </span>
-            </div>
-
-            <div class="col-span-2 text-center">
-              <IndexBadge value={file.isDir ? "DIR" : "FILE"} />
-            </div>
-
-            <div class="col-span-3 flex justify-end gap-1">
-              <Button
-                variant="action"
-                size="icon"
-                title="Download"
-                disabled={pendingDelete !== null}
-                onclick={(e: MouseEvent) => {
-                  e.stopPropagation();
-                  downloadFile(file);
-                }}
-              >
-                <Download size={14} strokeWidth={2.5} />
-              </Button>
-
-              <Button
-                variant={pendingDelete === file.name
-                  ? "danger"
-                  : "actionDanger"}
-                size={pendingDelete === file.name ? "sm" : "icon"}
-                title={pendingDelete === file.name
-                  ? "Confirm Delete"
-                  : "Delete"}
-                onclick={(e: MouseEvent) => {
-                  e.stopPropagation();
-                  handleDelete(file);
-                }}
-              >
-                <Trash2 size={14} strokeWidth={2.5} />
-                {#if pendingDelete === file.name}
-                  <span class="ml-1">SURE?</span>
-                {/if}
-              </Button>
-            </div>
+            </Button>
           </div>
-        {/each}
+        </div>
+      {/each}
 
-        {#if filteredFiles.length === 0}
-          <div
-            class="p-8 text-center text-slate-600 text-[10px] uppercase tracking-widest italic"
-          >
-            No files found
-          </div>
-        {/if}
-      </div>
+      {#if filteredFiles.length === 0}
+        <div
+          class="p-8 text-center text-slate-600 text-xs uppercase tracking-widest italic"
+        >
+          No files found
+        </div>
+      {/if}
     {/if}
   </div>
 </ListContainer>
