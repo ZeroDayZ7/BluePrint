@@ -54,7 +54,7 @@
       </span>
       {#if subValue}
         <span
-          class="text-[9px] font-medium text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded uppercase"
+          class="text-xs font-medium text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded uppercase"
         >
           {subValue}
         </span>

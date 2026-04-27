@@ -32,7 +32,7 @@
 <div class="flex items-center gap-4 p-1.5 pr-3">
   <div class="flex flex-col px-3 min-w-[200px]">
     <span
-      class="text-[9px] text-slate-500 uppercase tracking-[0.2em] font-black leading-none mb-1.5"
+      class="text-xs text-slate-500 uppercase tracking-[0.2em] font-black leading-none mb-1.5"
     >
       Active Device
     </span>

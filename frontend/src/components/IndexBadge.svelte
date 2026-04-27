@@ -2,6 +2,6 @@
   let { value, class: className = "" } = $props();
 </script>
 
-<span class="text-[9px] font-bold text-slate-500 {className}">
+<span class="text-xs {className}">
   {value}
 </span>

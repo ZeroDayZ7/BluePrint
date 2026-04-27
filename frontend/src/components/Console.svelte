@@ -25,7 +25,7 @@
         Output Log
       </div>
       <div
-        class="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[9px] font-bold"
+        class="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 text-xs font-bold"
       >
         {logs.length} lines
       </div>

@@ -101,7 +101,7 @@
       class="flex bg-slate-900 rounded-lg p-0.5 font-bold border border-slate-800"
     >
       <button
-        class="px-2 py-0.5 text-[9px] rounded-md transition-all {showUserApps
+        class="px-2 py-0.5 text-xs rounded-md transition-all {showUserApps
           ? 'bg-blue-600 text-white'
           : 'text-slate-500 hover:text-slate-300'}"
         onclick={() => {
@@ -111,7 +111,7 @@
         }}>USER</button
       >
       <button
-        class="px-2 py-0.5 text-[9px] rounded-md transition-all {!showUserApps
+        class="px-2 py-0.5 text-xs rounded-md transition-all {!showUserApps
           ? 'bg-blue-600 text-white'
           : 'text-slate-500 hover:text-slate-300'}"
         onclick={() => {

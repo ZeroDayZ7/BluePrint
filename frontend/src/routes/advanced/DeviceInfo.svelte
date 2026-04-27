@@ -82,7 +82,7 @@
           </h3>
           {#if isLoading}
             <span
-              class="text-[9px] text-blue-500 animate-pulse font-bold uppercase"
+              class="text-xs text-blue-500 animate-pulse font-bold uppercase"
               >Updating...</span
             >
           {/if}
@@ -127,7 +127,7 @@
         <div
           class="mt-auto p-4 rounded-xl border border-dashed border-slate-800/50 flex flex-col items-center justify-center gap-2"
         >
-          <span class="text-[9px] text-slate-500 uppercase font-medium"
+          <span class="text-xs text-slate-500 uppercase font-medium"
             >Data is cached for performance</span
           >
           <button
