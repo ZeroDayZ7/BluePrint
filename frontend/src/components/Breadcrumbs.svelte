@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ChevronsLeft } from "lucide-svelte";
   import Button from "./Button.svelte";
 
   interface Props {
@@ -12,7 +13,6 @@
 
   let isAtRoot = $derived(storagePoints.includes(currentPath));
 
-  // Pomocnicza funkcja do cięcia ścieżki, żeby nie robić tego w inline onclick
   function getPathUntil(parts: string[], index: number) {
     return "/" + parts.slice(0, index + 1).join("/");
   }
@@ -24,22 +24,13 @@
   <div class="flex items-center">
     <Button
       variant="ghost"
+      size="icon"
       onclick={onBack}
       title="Go back"
       disabled={isAtRoot}
-      class="!p-1.5 !rounded-md flex items-center justify-center disabled:opacity-20"
+      class="!p-1.5 !rounded-md disabled:opacity-20"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-      >
-        <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
-      </svg>
+      <ChevronsLeft size={14} strokeWidth={3} />
     </Button>
   </div>
 

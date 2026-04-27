@@ -24,7 +24,7 @@
 </script>
 
 <div class="space-y-8">
-  <div class="bg-blue-600/10 border border-blue-500/20 rounded-2xl p-4">
+  <div class="bg-blue-600/10 border border-blue-500/20 rounded-xl p-4">
     <h3
       class="text-sm font-black uppercase tracking-widest text-slate-500 mb-6"
     >

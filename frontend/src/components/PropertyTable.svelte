@@ -9,23 +9,23 @@
     height?: string;
   }
 
-  let { items, height = "h-[310px]" }: Props = $props();
+  let { items, height = "h-[305px]" }: Props = $props();
 </script>
 
 <div
   class="{height} rounded-xl border border-slate-800/50 bg-[#0b0e14]/50 flex flex-col overflow-hidden"
 >
   <table
-    class="w-full text-left text-[11px] border-collapse bg-[#161b22] border-b border-slate-800 shrink-0"
+    class="w-full text-left text-xs border-collapse bg-[#161b22] border-b border-slate-800 shrink-0"
   >
     <thead>
       <tr>
         <th
-          class="px-4 py-3 font-bold text-slate-500 uppercase tracking-widest w-1/2"
+          class="px-4 py-2 font-bold text-slate-500 uppercase tracking-widest w-1/2"
           >Key</th
         >
         <th
-          class="px-4 py-3 font-bold text-slate-500 uppercase tracking-widest w-1/2"
+          class="px-4 py-2 font-bold text-slate-500 uppercase tracking-widest w-1/2"
           >Value</th
         >
       </tr>

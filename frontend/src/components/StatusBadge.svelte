@@ -3,7 +3,7 @@
 </script>
 
 <div
-  class="p-4 rounded-2xl transition-all duration-300 border
+  class="p-4 rounded-xl transition-all duration-300 border
   {deviceState.isConnected
     ? 'bg-blue-600/10 border-blue-500/20 shadow-sm'
     : 'bg-slate-800/40 border-slate-800/60'}"

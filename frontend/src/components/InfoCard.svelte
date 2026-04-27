@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { Component } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-  interface Props {
+  interface Props extends HTMLAttributes<HTMLDivElement> {
     label: string;
     value: string | number;
     subValue?: string;
     variant?: "default" | "blue" | "green" | "amber";
-    icon?: Component;
+    icon?: any;
   }
 
   let {
@@ -15,6 +15,8 @@
     subValue,
     variant = "default",
     icon: Icon,
+    class: className,
+    ...rest
   }: Props = $props();
 
   const styles = $derived(
@@ -28,7 +30,9 @@
 </script>
 
 <div
-  class="group flex items-center gap-4 p-3 bg-slate-900/40 border border-slate-800/50 rounded-2xl"
+  {...rest}
+  class="{className ??
+    ''}group flex items-center gap-4 p-3 bg-slate-900/40 border border-slate-800/50 rounded-xl"
 >
   {#if Icon}
     <div

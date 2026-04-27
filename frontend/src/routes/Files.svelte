@@ -36,7 +36,8 @@
   );
 
   $effect(() => {
-    if (deviceState.isConnected && deviceState.activeDevice) {
+    const deviceId = deviceState.activeDevice?.id;
+    if (deviceState.isConnected && deviceId) {
       // @ts-ignore
       window.go.main.App.GetStoragePoints(deviceState.activeDevice.id).then(
         (points) => {
@@ -149,7 +150,8 @@
   }
 
   $effect(() => {
-    if (deviceState.isConnected && deviceState.activeDevice) {
+    const deviceId = deviceState.activeDevice?.id;
+    if (deviceState.isConnected && deviceId) {
       untrack(() => loadDirectory(deviceState.currentPath));
     }
   });

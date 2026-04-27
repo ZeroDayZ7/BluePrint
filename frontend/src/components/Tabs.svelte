@@ -4,7 +4,7 @@
   interface Tab {
     id: string;
     label: string;
-    icon?: string;
+    icon?: any;
   }
 
   interface Props {
@@ -17,13 +17,14 @@
 </script>
 
 <div
-  class="flex items-center gap-1 bg-slate-900/50 p-1 rounded-xl border border-slate-800/50 w-full"
+  class="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800/50 w-full"
 >
   {#each tabs as tab}
     <Button
       onclick={() => onChange(tab.id)}
       variant={activeTab === tab.id ? "primary" : "ghost"}
-      class="flex-1 !rounded-lg !py-2 !text-sm"
+      size="none"
+      class="flex-1 py-1 text-xs font-bold tracking-blueprint uppercase transition-all"
     >
       {tab.label}
     </Button>

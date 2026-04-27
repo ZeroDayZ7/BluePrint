@@ -59,14 +59,15 @@ class DeviceState {
     this.devices.length > 0 ? this.devices[this.selectedDeviceIndex] : null,
   );
 
+  activeStatus = $derived(this.activeDevice?.status);
+
   displayStatus = $derived.by(() => {
-    const device = this.activeDevice;
-    if (!device) return "Disconnected";
-    if (device.status === "device" || device.status === "Connected")
-      return "Connected";
-    if (device.status === "unauthorized") return "Unauthorized";
-    if (device.status === "offline") return "Offline";
-    return device.status;
+    const status = this.activeStatus;
+    if (!status) return "Disconnected";
+    if (status === "device" || status === "Connected") return "Connected";
+    if (status === "unauthorized") return "Unauthorized";
+    if (status === "offline") return "Offline";
+    return status;
   });
 
   isConnected = $derived(this.displayStatus === "Connected");

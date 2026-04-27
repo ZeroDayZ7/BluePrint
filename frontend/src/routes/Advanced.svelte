@@ -5,10 +5,13 @@
   import DeviceInfo from "./advanced/DeviceInfo.svelte";
   import SystemProps from "./advanced/SystemProps.svelte";
   import Tabs from "../components/Tabs.svelte";
+  import type { Component } from "svelte";
+
+  type TabId = "terminal" | "logcat" | "device" | "props" | "power";
 
   let activeTab = $state("terminal");
 
-  const tabs = [
+  const tabs: { id: TabId; label: string }[] = [
     { id: "terminal", label: "Terminal" },
     { id: "logcat", label: "Logcat" },
     { id: "device", label: "Device Info" },
@@ -16,7 +19,7 @@
     { id: "power", label: "Power Menu" },
   ];
 
-  const views: Record<string, any> = {
+  const views: Record<TabId, Component<any>> = {
     terminal: TerminalView,
     logcat: LogcatView,
     device: DeviceInfo,
@@ -28,7 +31,7 @@
 <div class="flex flex-col gap-4 h-full overflow-hidden">
   <Tabs {tabs} {activeTab} onChange={(id) => (activeTab = id)} />
   <div
-    class="flex-1 bg-slate-900/20 border border-slate-800/40 rounded-2xl relative"
+    class="flex-1 bg-slate-900/20 border border-slate-800/40 rounded-xl relative"
   >
     {#if views[activeTab]}
       {@const ActiveView = views[activeTab]}

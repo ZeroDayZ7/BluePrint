@@ -6,7 +6,8 @@
   import Loader from "../components/Loader.svelte";
   import IndexBadge from "../components/IndexBadge.svelte";
   import Button from "../components/Button.svelte";
-  import { Zap } from "lucide-svelte";
+  import { Info, Zap } from "lucide-svelte";
+  import Tabs from "../components/Tabs.svelte";
 
   let isLoading = $state(false);
   let searchQuery = $state("");
@@ -74,6 +75,17 @@
       }
     }
   });
+
+  const processTabs = [
+    { id: "user", label: "User" },
+    { id: "system", label: "System" },
+  ];
+
+  let activeProcessType = $state("user");
+
+  function handleTabChange(id: string) {
+    activeProcessType = id;
+  }
 </script>
 
 <ListContainer
@@ -83,8 +95,18 @@
   bind:searchQuery
   onRefresh={refreshProcesses}
 >
+  {#snippet headerExtra()}
+    <div class="w-40">
+      <Tabs
+        tabs={processTabs}
+        activeTab={activeProcessType}
+        onChange={handleTabChange}
+      />
+    </div>
+  {/snippet}
+
   <div
-    class="grid grid-cols-12 px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-tighter border-b border-slate-800/50 bg-slate-900/20 rounded-t-lg"
+    class="grid grid-cols-12 px-3 py-2 text-xxs font-bold text-slate-500 uppercase tracking-blueprint border-b border-slate-800/50 bg-slate-900/20 rounded-t-lg"
   >
     <div class="col-span-1">#</div>
     <div class="col-span-2">PID</div>
@@ -107,11 +129,10 @@
             class="grid grid-cols-12 items-center px-3 py-1.5 hover:bg-slate-800/30 transition-all group"
           >
             <IndexBadge value={i + 1} class="col-span-1" />
-
             <IndexBadge value={proc.pid} class="col-span-2" />
 
             <div
-              class="col-span-4 text-[11px] text-slate-300 truncate font-medium"
+              class="col-span-4 text-xxs text-slate-300 truncate font-medium font-mono"
             >
               {proc.name}
             </div>
@@ -119,24 +140,14 @@
             <IndexBadge value="{proc.cpu}%" class="col-span-2 text-center" />
 
             <div class="col-span-3 flex justify-end gap-1">
-              <button
-                class="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-blue-400 transition-all cursor-help"
+              <Button
+                variant="action"
+                size="icon"
+                class="cursor-help"
                 title="Process Info"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 16v-4" />
-                  <path d="M12 8h.01" />
-                </svg>
-              </button>
+                <Info size={12} strokeWidth={2.5} />
+              </Button>
 
               <Button
                 variant="action"
