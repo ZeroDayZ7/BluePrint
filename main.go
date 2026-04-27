@@ -16,8 +16,8 @@ func main() {
 
 	err := wails.Run(&options.App{
 		Title:     "ADB Commander Blue Print",
-		Width:     1024,
-		Height:    768,
+		Width:     1000,
+		Height:    620,
 		MinWidth:  800,
 		MinHeight: 600,
 		// Frameless: true,

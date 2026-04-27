@@ -5,7 +5,7 @@
   import Dashboard from "./routes/Dashboard.svelte";
   import { screens } from "./lib/router";
   import DeviceSelector from "./components/DeviceSelector.svelte";
-  import Titlebar from "./components/trash/Titlebar.svelte";
+  // import Titlebar from "./components/trash/Titlebar.svelte";
 
   let activeTab = $state("dashboard");
   let logs = $state(["System initialized...", "Vite + Svelte 5 running..."]);

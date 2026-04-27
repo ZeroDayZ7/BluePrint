@@ -10,7 +10,7 @@
 
   let {
     items,
-    height = "h-[calc(100vh-280px)]",
+    height = "h-[calc(100vh-288px)]",
     header,
     row,
   }: Props = $props();

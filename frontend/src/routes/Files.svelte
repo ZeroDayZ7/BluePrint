@@ -213,7 +213,7 @@
     </div>
   {/snippet}
 
-  <div class="h-[310px] overflow-y-auto custom-scrollbar">
+  <div class="h-[290px] overflow-y-auto custom-scrollbar">
     <div
       class="grid grid-cols-12 px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-tighter border-b border-slate-800/30 mb-2"
     >

@@ -5,7 +5,6 @@ import Files from "../routes/Files.svelte";
 import Applications from "../routes/Applications.svelte";
 import Processes from "../routes/Processes.svelte";
 import Advanced from "../routes/Advanced.svelte";
-import Lab from "../routes/Lab.svelte";
 
 export const navigation = [
   { id: "dashboard", label: "Dashboard", icon: "home" },
@@ -13,7 +12,6 @@ export const navigation = [
   { id: "processes", label: "Processes", icon: "activity" },
   { id: "files", label: "File Explorer", icon: "folder" },
   { id: "advanced", label: "Advanced", icon: "cpu" },
-  { id: "lab", label: "Lab / Test", icon: "flask" },
   { id: "settings", label: "Settings", icon: "settings" },
 ];
 
@@ -23,6 +21,5 @@ export const screens: Record<string, any> = {
   processes: Processes,
   files: Files,
   advanced: Advanced,
-  lab: Lab,
   settings: Settings,
 };
