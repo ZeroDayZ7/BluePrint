@@ -13,7 +13,7 @@
 </script>
 
 <div
-  class="{height} rounded-xl border border-slate-800/50 bg-[#0b0e14]/50 flex flex-col overflow-hidden"
+  class="{height} rounded-md border border-slate-800/50 bg-[#0b0e14]/50 flex flex-col overflow-hidden"
 >
   <table
     class="w-full text-left text-xs border-collapse bg-[#161b22] border-b border-slate-800 shrink-0"

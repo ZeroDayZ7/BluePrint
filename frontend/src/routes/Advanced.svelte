@@ -31,7 +31,7 @@
 <div class="flex flex-col gap-4 h-full overflow-hidden">
   <Tabs {tabs} {activeTab} onChange={(id) => (activeTab = id)} />
   <div
-    class="flex-1 bg-slate-900/20 border border-slate-800/40 rounded-xl relative"
+    class="flex-1 bg-slate-900/20 border border-slate-800/40 rounded-md relative"
   >
     {#if views[activeTab]}
       {@const ActiveView = views[activeTab]}

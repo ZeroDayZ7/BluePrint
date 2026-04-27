@@ -27,7 +27,7 @@
 </script>
 
 <div
-  class="flex flex-col p-4 bg-[#161b22]/40 rounded-xl border border-slate-800/60 h-full"
+  class="flex flex-col p-4 bg-[#161b22]/40 rounded-md border border-slate-800/60 h-full"
 >
   <div class="flex items-center justify-between mb-4">
     <div class="flex flex-col">

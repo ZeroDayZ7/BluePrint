@@ -59,7 +59,7 @@
 </script>
 
 <div
-  class="flex flex-col h-[500px] font-mono text-sm bg-black/60 rounded-xl border border-slate-800 overflow-hidden shadow-2xl"
+  class="flex flex-col h-[500px] font-mono text-sm bg-black/60 rounded-md border border-slate-800 overflow-hidden shadow-2xl"
 >
   <div
     class="p-4 flex-1 overflow-y-auto flex flex-col custom-scrollbar selection:bg-blue-500/40 selection:text-white"

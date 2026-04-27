@@ -20,7 +20,7 @@
   </div>
 
   <div
-    class="flex-1 bg-slate-950 rounded-xl border border-slate-800 p-3 font-mono text-[11px] overflow-y-auto space-y-1"
+    class="flex-1 bg-slate-950 rounded-md border border-slate-800 p-3 font-mono text-[11px] overflow-y-auto space-y-1"
   >
     <div class="text-blue-400">
       [04-26 13:29:01.442] I/ActivityManager: START u0 {"{"}act =

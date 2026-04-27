@@ -125,7 +125,7 @@
         />
 
         <div
-          class="mt-auto p-4 rounded-xl border border-dashed border-slate-800/50 flex flex-col items-center justify-center gap-2"
+          class="mt-auto p-4 rounded-md border border-dashed border-slate-800/50 flex flex-col items-center justify-center gap-2"
         >
           <span class="text-xs text-slate-500 uppercase font-medium"
             >Data is cached for performance</span

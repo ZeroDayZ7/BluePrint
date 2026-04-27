@@ -32,11 +32,11 @@
 <div
   {...rest}
   class="{className ??
-    ''}group flex items-center gap-4 p-3 bg-slate-900/40 border border-slate-800/50 rounded-xl"
+    ''}group flex items-center gap-4 p-3 bg-slate-900/40 border border-slate-800/50 rounded-md"
 >
   {#if Icon}
     <div
-      class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 {styles}"
+      class="flex items-center justify-center w-10 h-10 rounded-md shrink-0 {styles}"
     >
       <Icon size={20} strokeWidth={2} />
     </div>

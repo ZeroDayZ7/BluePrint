@@ -19,7 +19,7 @@
     searchPlaceholder="Search lab items..."
   >
     <div
-      class="p-8 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-900/20"
+      class="p-8 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-md bg-slate-900/20"
     >
       <div class="text-blue-500 mb-4">
         <svg

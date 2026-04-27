@@ -1,6 +1,7 @@
 <script lang="ts">
   import Logo from "./Logo.svelte";
   import StatusBadge from "./StatusBadge.svelte";
+  import Button from "../components/Button.svelte";
   import { navigation } from "../lib/router";
 
   interface Props {
@@ -17,17 +18,21 @@
 
   <div class="space-y-1.5 flex-1">
     {#each navigation as tab}
-      <button
+      <Button
+        variant="ghost"
+        size="md"
         onclick={() => (activeTab = tab.id)}
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all capitalize font-medium
+        class="w-full justify-start gap-3 px-4 py-3 capitalize font-medium transition-all
         {activeTab === tab.id
-          ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20 shadow-sm'
-          : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/40'}"
+          ? '!bg-blue-600/10 !text-blue-400 border border-blue-500/20 shadow-sm'
+          : 'text-slate-500 hover:text-slate-300'}"
       >
-        {tab.label}
-      </button>
+        <span>{tab.label}</span>
+      </Button>
     {/each}
   </div>
 
-  <StatusBadge />
+  <div class="mt-auto pt-5">
+    <StatusBadge />
+  </div>
 </nav>

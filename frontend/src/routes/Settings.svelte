@@ -54,10 +54,10 @@
           id="adb-path"
           type="text"
           bind:value={adbPath}
-          class="flex-1 bg-[#0b0e14] border border-slate-800 rounded-xl px-4 py-3 text-sm outline-none text-slate-300 transition-all font-mono"
+          class="flex-1 bg-[#0b0e14] border border-slate-800 rounded-md px-4 py-3 text-sm outline-none text-slate-300 transition-all font-mono"
         />
         <button
-          class="px-6 py-2 bg-slate-800/60 hover:bg-slate-700 border border-slate-700/50 rounded-xl text-xs font-bold transition-all active:scale-95"
+          class="px-6 py-2 bg-slate-800/60 hover:bg-slate-700 border border-slate-700/50 rounded-md text-xs font-bold transition-all active:scale-95"
         >
           Browse
         </button>

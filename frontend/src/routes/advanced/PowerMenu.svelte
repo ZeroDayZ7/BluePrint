@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
   {#each ["System", "Recovery", "Bootloader", "Fastboot"] as mode}
     <div
-      class="p-6 bg-slate-900/40 border border-slate-800 rounded-xl flex items-center justify-between group hover:border-blue-500/30 transition-all"
+      class="p-6 bg-slate-900/40 border border-slate-800 rounded-md flex items-center justify-between group hover:border-blue-500/30 transition-all"
     >
       <div>
         <h3 class="text-slate-200 font-bold">Reboot to {mode}</h3>
@@ -13,7 +13,7 @@
         type="button"
         aria-label="Reboot to {mode}"
         title="Reboot to {mode}"
-        class="p-3 bg-slate-800 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all"
+        class="p-3 bg-slate-800 rounded-md group-hover:bg-blue-600 group-hover:text-white transition-all"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

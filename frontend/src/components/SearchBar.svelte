@@ -19,6 +19,6 @@
     type="text"
     bind:value
     {placeholder}
-    class="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-slate-900 transition-all"
+    class="w-full bg-slate-900/50 border border-slate-800 rounded-md py-2 pl-9 pr-4 text-xs text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 focus:bg-slate-900 transition-all"
   />
 </div>
