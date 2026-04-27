@@ -12,7 +12,11 @@
     "CONTRIBUTORS.md": true,
     "LICENSE": true,
     "assets/": true,
-    "README.md": true
+    "frontend/tsconfig.json": true,
+    "frontend/tsconfig.node.json": true,
+    "frontend/.prettierrc": true,
+    "**/README.md": true,
+    "wails.json": true
   },
 
   "search.exclude": {
@@ -30,7 +34,11 @@
     "**/combined.txt": true,
     "LICENSE": true,
     "assets/": true,
-    "README.md": true
+    "frontend/tsconfig.json": true,
+    "frontend/tsconfig.node.json": true,
+    "frontend/.prettierrc": true,
+    "**/README.md": true,
+    "wails.json": true
   },
   "go.formatTool": "gofmt",
   "editor.formatOnSave": true
