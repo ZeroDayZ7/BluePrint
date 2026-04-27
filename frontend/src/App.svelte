@@ -25,16 +25,6 @@
   {/snippet}
 
   {#snippet content()}
-    <div class="flex flex-col h-full">
-      <div class="flex-1">
-        <div class="w-full flex justify-center">
-          <div class="w-full max-w-4xl">
-            <CurrentPage bind:logs />
-          </div>
-        </div>
-      </div>
-
-      <Console {logs} />
-    </div>
+    <CurrentPage bind:logs />
   {/snippet}
 </MainLayout>

@@ -140,41 +140,39 @@
     </div>
   {/snippet}
 
-  <div class="h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+  <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
     {#if isLoading && filteredApps.length === 0}
       <div class="flex h-full items-center justify-center">
         <Loader message="Scanning device..." size="md" />
       </div>
     {:else}
-      <div class="space-y-1">
-        {#each filteredApps as app, i}
-          <div
-            class="group flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800/40 border border-transparent hover:border-slate-800 transition-all"
+      {#each filteredApps as app, i}
+        <div
+          class="group p-1.5 flex items-center gap-3 rounded-lg hover:bg-slate-800/40 border border-transparent hover:border-slate-800"
+        >
+          <IndexBadge value={i + 1} class="w-4" />
+
+          <Checkbox
+            checked={selectedPackages.has(app)}
+            onchange={() => toggleSelect(app)}
+          />
+
+          <span
+            class="text-xs text-slate-400 truncate text-left flex-1 font-mono"
           >
-            <IndexBadge value={i + 1} class="w-4" />
+            {app}
+          </span>
 
-            <Checkbox
-              checked={selectedPackages.has(app)}
-              onchange={() => toggleSelect(app)}
-            />
-
-            <span
-              class="text-[11px] text-slate-400 truncate text-left flex-1 font-mono"
-            >
-              {app}
-            </span>
-
-            <Button
-              variant="action"
-              size="sm"
-              onclick={() => handleSingleUninstall(app)}
-            >
-              <Trash2 size={12} strokeWidth={2.5} />
-              <span>Uninstall</span>
-            </Button>
-          </div>
-        {/each}
-      </div>
+          <Button
+            variant="action"
+            size="sm"
+            onclick={() => handleSingleUninstall(app)}
+          >
+            <Trash2 size={12} strokeWidth={2.5} />
+            <span>Uninstall</span>
+          </Button>
+        </div>
+      {/each}
     {/if}
   </div>
 </ListContainer>

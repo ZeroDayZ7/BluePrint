@@ -13,10 +13,8 @@
 <main class="flex h-screen overflow-hidden font-sans">
   {@render sidebar()}
 
-  <section class="flex-1 flex flex-col">
-    <header
-      class="h-16 border-b border-slate-800/60 flex items-center justify-between p-4 z-10"
-    >
+  <section class="flex flex flex-col w-full">
+    <header class="border-b border-slate-800/60 p-2">
       {@render header()}
     </header>
 
