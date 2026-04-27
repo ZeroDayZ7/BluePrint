@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { Zap } from "lucide-svelte";
+  import Button from "../components/Button.svelte";
   import ListContainer from "../components/ListContainer.svelte";
-  import ActionButton from "../components/ActionButton.svelte";
 
   let searchQuery = $state("");
   let testValue = $state("Prototype Mode Active");
@@ -47,7 +48,15 @@
       </p>
 
       <div class="flex gap-4">
-        <ActionButton label="Trigger Test" icon="zap" onclick={testAlert} />
+        <Button variant="primary" onclick={testAlert}>
+          <Zap
+            size={14}
+            strokeWidth={2.5}
+            fill="currentColor"
+            class="text-amber-400"
+          />
+          <span>Trigger Test</span>
+        </Button>
         <div
           class="px-4 py-2 bg-slate-800/50 rounded-lg text-[11px] font-mono text-blue-400 border border-slate-700"
         >

@@ -7,7 +7,6 @@
   import IndexBadge from "../components/IndexBadge.svelte";
   import Button from "../components/Button.svelte";
   import { Info, Zap } from "lucide-svelte";
-  import Tabs from "../components/Tabs.svelte";
   import DataTable from "../components/DataTable.svelte";
 
   let isLoading = $state(false);
@@ -40,7 +39,7 @@
         }
       });
     } catch (err) {
-      console.error("Failed to fetch processes:", err);
+      console.error(err);
     } finally {
       isLoading = false;
     }
@@ -73,16 +72,6 @@
       }
     }
   });
-
-  const processTabs = [
-    { id: "user", label: "User" },
-    { id: "system", label: "System" },
-  ];
-
-  let activeProcessType = $state("user");
-  function handleTabChange(id: string) {
-    activeProcessType = id;
-  }
 </script>
 
 <ListContainer
@@ -92,51 +81,64 @@
   bind:searchQuery
   onRefresh={refreshProcesses}
 >
-  {#snippet headerExtra()}
-    <div class="w-40">
-      <Tabs
-        tabs={processTabs}
-        activeTab={activeProcessType}
-        onChange={handleTabChange}
-      />
+  {#if isLoading && sortedProcesses.length === 0}
+    <div class="flex h-64 items-center justify-center">
+      <Loader message="Fetching processes..." size="md" />
     </div>
-  {/snippet}
-
-  <DataTable items={sortedProcesses}>
-    {#snippet header()}
-      <div
-        class="grid grid-cols-12 px-3 py-2 text-xs font-bold text-slate-500 uppercase tracking-blueprint"
-      >
-        <div class="col-span-1">#</div>
-        <div class="col-span-2">PID</div>
-        <div class="col-span-4">Process Name</div>
-        <div class="col-span-2 text-center">CPU</div>
-        <div class="col-span-3 text-right pr-2">Actions</div>
-      </div>
-    {/snippet}
-
-    {#snippet row(proc, i)}
-      <div class="grid grid-cols-12 items-center px-3 transition-all">
-        <IndexBadge value={i + 1} class="col-span-1" />
-        <IndexBadge value={proc.pid} class="col-span-2" />
-        <div class="col-span-4 text-xs truncate font-medium font-mono">
-          {proc.name}
+  {:else}
+    <DataTable items={sortedProcesses}>
+      {#snippet header()}
+        <div
+          class="grid grid-cols-12 px-4 py-2.5 text-xs font-bold text-slate-500 uppercase tracking-blueprint border-b border-slate-800/50"
+        >
+          <div class="col-span-1">#</div>
+          <div class="col-span-2">PID</div>
+          <div class="col-span-5">Process Name</div>
+          <div class="col-span-2 text-center">CPU</div>
+          <div class="col-span-2 text-right">Actions</div>
         </div>
-        <IndexBadge value="{proc.cpu}%" class="col-span-2 text-center" />
-        <div class="col-span-3 flex justify-end gap-1">
-          <Button variant="action" size="icon" title="Info"
-            ><Info size={12} /></Button
+      {/snippet}
+
+      {#snippet row(proc, i)}
+        <div
+          class="grid grid-cols-12 items-center px-4 py-1.5 transition-all group"
+        >
+          <div class="col-span-1">
+            <IndexBadge value={i + 1} />
+          </div>
+          <div class="col-span-2">
+            <IndexBadge value={proc.pid} />
+          </div>
+          <div
+            class="col-span-5 text-slate-300 text-xs truncate font-mono tracking-tight cursor-help"
+            title={proc.name}
           >
-          <Button
-            variant="action"
-            size="sm"
-            onclick={() => handleKill(proc.pid)}
-          >
-            <Zap size={12} class="text-amber-400" fill="currentColor" />
-            <span class="text-xs">Kill</span>
-          </Button>
+            {proc.name}
+          </div>
+          <div class="col-span-2 text-center">
+            <span
+              class="text-xs font-mono {parseFloat(proc.cpu) > 50
+                ? 'text-red-400'
+                : 'text-emerald-400'}"
+            >
+              {proc.cpu}%
+            </span>
+          </div>
+          <div class="col-span-2 flex justify-end gap-1">
+            <Button variant="action" size="icon" title="Info">
+              <Info size={12} />
+            </Button>
+            <Button
+              variant="action"
+              size="sm"
+              onclick={() => handleKill(proc.pid)}
+            >
+              <Zap size={12} class="text-amber-400" fill="currentColor" />
+              <span class="text-xs font-bold uppercase">Kill</span>
+            </Button>
+          </div>
         </div>
-      </div>
-    {/snippet}
-  </DataTable>
+      {/snippet}
+    </DataTable>
+  {/if}
 </ListContainer>
