@@ -8,6 +8,7 @@
   import IndexBadge from "../components/IndexBadge.svelte";
   import Button from "../components/Button.svelte";
   import { Trash2 } from "lucide-svelte";
+  import DataTable from "../components/DataTable.svelte";
 
   let showUserApps = $state(true);
   let isLoading = $state(false);
@@ -103,27 +104,21 @@
       <Button
         variant={showUserApps ? "primary" : "ghost"}
         size="sm"
-        class=" {showUserApps ? '' : 'text-slate-500'}"
         onclick={() => {
           showUserApps = true;
           selectedPackages.clear();
           loadApps();
-        }}
+        }}>USER</Button
       >
-        USER
-      </Button>
       <Button
         variant={!showUserApps ? "primary" : "ghost"}
         size="sm"
-        class=" {!showUserApps ? '' : 'text-slate-500'}"
         onclick={() => {
           showUserApps = false;
           selectedPackages.clear();
           loadApps();
-        }}
+        }}>SYSTEM</Button
       >
-        SYSTEM
-      </Button>
     </div>
   {/snippet}
 
@@ -144,39 +139,49 @@
     </div>
   {/snippet}
 
-  <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-    {#if isLoading && filteredApps.length === 0}
-      <div class="flex h-full items-center justify-center">
-        <Loader message="Scanning device..." size="md" />
-      </div>
-    {:else}
-      {#each filteredApps as app, i}
+  {#if isLoading && filteredApps.length === 0}
+    <div class="flex h-64 items-center justify-center">
+      <Loader message="Scanning device..." size="md" />
+    </div>
+  {:else}
+    <DataTable items={filteredApps} height="h-[calc(100vh-280px)]">
+      {#snippet header()}
         <div
-          class="group p-1.5 flex items-center gap-3 rounded-lg hover:bg-slate-800/40 hover:border-slate-800"
+          class="grid grid-cols-12 px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest"
         >
-          <IndexBadge value={i + 1} class="w-4" />
-
-          <Checkbox
-            checked={selectedPackages.has(app)}
-            onchange={() => toggleSelect(app)}
-          />
-
-          <span
-            class="text-xs text-slate-400 truncate text-left flex-1 font-mono"
-          >
-            {app}
-          </span>
-
-          <Button
-            variant="action"
-            size="sm"
-            onclick={() => handleSingleUninstall(app)}
-          >
-            <Trash2 size={12} strokeWidth={2.5} />
-            <span>Uninstall</span>
-          </Button>
+          <div class="col-span-1">#</div>
+          <div class="col-span-1">Sel</div>
+          <div class="col-span-8">Package Identifier</div>
+          <div class="col-span-2 text-right">Actions</div>
         </div>
-      {/each}
-    {/if}
-  </div>
+      {/snippet}
+
+      {#snippet row(app, i)}
+        <div class="grid grid-cols-12 items-center px-4 py-1.5">
+          <div class="col-span-1"><IndexBadge value={i + 1} /></div>
+          <div class="col-span-1">
+            <Checkbox
+              checked={selectedPackages.has(app)}
+              onchange={() => toggleSelect(app)}
+            />
+          </div>
+          <div class="col-span-8 text-xs text-slate-400 font-mono truncate">
+            {app}
+          </div>
+          <div
+            class="col-span-2 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <Button
+              variant="action"
+              size="sm"
+              onclick={() => handleSingleUninstall(app)}
+            >
+              <Trash2 size={12} strokeWidth={2.5} />
+              <span>Uninstall</span>
+            </Button>
+          </div>
+        </div>
+      {/snippet}
+    </DataTable>
+  {/if}
 </ListContainer>

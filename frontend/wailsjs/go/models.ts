@@ -1,3 +1,28 @@
+export namespace config {
+	
+	export class AppConfig {
+	    showHidden: boolean;
+	    alwaysTop: boolean;
+	    devMode: boolean;
+	    autoConnect: boolean;
+	    adbPath: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new AppConfig(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.showHidden = source["showHidden"];
+	        this.alwaysTop = source["alwaysTop"];
+	        this.devMode = source["devMode"];
+	        this.autoConnect = source["autoConnect"];
+	        this.adbPath = source["adbPath"];
+	    }
+	}
+
+}
+
 export namespace main {
 	
 	export class Device {

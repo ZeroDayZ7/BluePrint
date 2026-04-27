@@ -1,12 +1,13 @@
 <script lang="ts">
+  import Button from "../components/Button.svelte";
   import PageHeader from "../components/PageHeader.svelte";
   import SettingGroup from "../components/SettingGroup.svelte";
   import SettingItem from "../components/SettingItem.svelte";
+  import { configStore } from "../lib/configStore.svelte";
 
-  // Stan ustawień
-  let devMode = $state(true);
-  let autoConnect = $state(false);
-  let adbPath = $state("C:/platform-tools/adb.exe");
+  async function handleBrowse() {
+    console.log("Browse...");
+  }
 </script>
 
 <div class="max-w-3xl">
@@ -22,7 +23,7 @@
       <SettingItem
         title="Developer Mode Monitoring"
         description="Keep track of device state changes in real-time."
-        bind:checked={devMode}
+        bind:checked={configStore.data.devMode}
       />
 
       <div class="h-[1px] bg-slate-800/30 w-full my-1"></div>
@@ -30,7 +31,7 @@
       <SettingItem
         title="Auto-Connect USB"
         description="Automatically authorize new devices via ADB."
-        bind:checked={autoConnect}
+        bind:checked={configStore.data.autoConnect}
       />
     </div>
 
@@ -45,7 +46,7 @@
           ADB Binary Path
         </label>
         <p class="text-xs text-slate-600 ml-1">
-          Point to your adb.exe if it's not in system PATH.
+          Point to your adb.exe if it's not in system PATH.ggg
         </p>
       </div>
 
@@ -53,14 +54,10 @@
         <input
           id="adb-path"
           type="text"
-          bind:value={adbPath}
+          bind:value={configStore.data.adbPath}
           class="flex-1 bg-[#0b0e14] border border-slate-800 rounded-md px-4 py-3 text-sm outline-none text-slate-300 transition-all font-mono"
         />
-        <button
-          class="px-6 py-2 bg-slate-800/60 hover:bg-slate-700 border border-slate-700/50 rounded-md text-xs font-bold transition-all active:scale-95"
-        >
-          Browse
-        </button>
+        <Button variant="secondary" onclick={handleBrowse}>Browse</Button>
       </div>
     </div>
   </div>

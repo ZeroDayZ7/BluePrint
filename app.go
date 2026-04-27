@@ -2,6 +2,7 @@ package main
 
 import (
 	"BluePrint/backend/adb"
+	"BluePrint/backend/config"
 	"BluePrint/backend/mirror"
 	"context"
 	"fmt"
@@ -14,7 +15,8 @@ import (
 )
 
 type App struct {
-	ctx context.Context
+	ctx    context.Context
+	Config *config.AppConfig
 }
 
 type Device struct {
@@ -53,7 +55,9 @@ type DeviceInfoResponse struct {
 }
 
 func NewApp() *App {
-	return &App{}
+	return &App{
+		Config: config.Load(),
+	}
 }
 
 func (a *App) startup(ctx context.Context) {
@@ -418,4 +422,18 @@ func (a *App) ExecuteShell(deviceID string, command string) string {
 		return "Error: " + err.Error()
 	}
 	return output
+}
+
+func (a *App) GetSettings() *config.AppConfig {
+	return a.Config
+}
+
+func (a *App) SaveSettings(newConfig config.AppConfig) string {
+	*a.Config = newConfig
+
+	err := config.Save(a.Config)
+	if err != nil {
+		return err.Error()
+	}
+	return "Success"
 }

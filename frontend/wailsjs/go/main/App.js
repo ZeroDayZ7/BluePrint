@@ -30,6 +30,10 @@ export function GetProcesses(arg1) {
   return window['go']['main']['App']['GetProcesses'](arg1);
 }
 
+export function GetSettings() {
+  return window['go']['main']['App']['GetSettings']();
+}
+
 export function GetStoragePoints(arg1) {
   return window['go']['main']['App']['GetStoragePoints'](arg1);
 }
@@ -40,6 +44,10 @@ export function KillProcess(arg1, arg2) {
 
 export function ListFiles(arg1, arg2, arg3) {
   return window['go']['main']['App']['ListFiles'](arg1, arg2, arg3);
+}
+
+export function SaveSettings(arg1) {
+  return window['go']['main']['App']['SaveSettings'](arg1);
 }
 
 export function StartMirroring(arg1) {

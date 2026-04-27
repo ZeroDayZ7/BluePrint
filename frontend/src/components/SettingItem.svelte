@@ -3,11 +3,11 @@
 
   interface Props {
     title: string;
-    description: string;
+    description?: string;
     checked: boolean;
   }
 
-  let { title, description, checked = $bindable() }: Props = $props();
+  let { title, description = "", checked = $bindable() }: Props = $props();
 </script>
 
 <div class="flex items-start justify-between py-3 group w-full">
@@ -17,9 +17,12 @@
     >
       {title}
     </span>
-    <span class="text-xs text-slate-500 mt-0.5 leading-relaxed max-w-md">
-      {description}
-    </span>
+
+    {#if description}
+      <span class="text-xs text-slate-500 mt-0.5 leading-relaxed max-w-md">
+        {description}
+      </span>
+    {/if}
   </div>
 
   <div class="pt-1">

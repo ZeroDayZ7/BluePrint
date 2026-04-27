@@ -86,10 +86,10 @@
       <Loader message="Fetching processes..." size="md" />
     </div>
   {:else}
-    <DataTable items={sortedProcesses}>
+    <DataTable items={sortedProcesses} height="h-[calc(100vh-300px)]">
       {#snippet header()}
         <div
-          class="grid grid-cols-12 px-4 py-2.5 text-xs font-bold text-slate-500 uppercase tracking-blueprint border-b border-slate-800/50"
+          class="grid grid-cols-12 px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest"
         >
           <div class="col-span-1">#</div>
           <div class="col-span-2">PID</div>
@@ -100,12 +100,14 @@
       {/snippet}
 
       {#snippet row(proc, i)}
-        <div class="grid grid-cols-12 items-center px-4 py-1.5 group">
+        <div class="grid grid-cols-12 items-center px-4 py-1.5">
           <div class="col-span-1">
             <IndexBadge value={i + 1} />
           </div>
           <div class="col-span-2">
-            <IndexBadge value={proc.pid} />
+            <span class="text-[11px] font-mono text-blue-400/80"
+              >{proc.pid}</span
+            >
           </div>
           <div
             class="col-span-5 text-slate-300 text-xs truncate font-mono tracking-tight cursor-help"
@@ -115,14 +117,16 @@
           </div>
           <div class="col-span-2 text-center">
             <span
-              class="text-xs font-mono {parseFloat(proc.cpu) > 50
+              class="text-[11px] font-mono {parseFloat(proc.cpu) > 50
                 ? 'text-red-400'
                 : 'text-emerald-400'}"
             >
               {proc.cpu}%
             </span>
           </div>
-          <div class="col-span-2 flex justify-end gap-1">
+          <div
+            class="col-span-2 flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
             <Button variant="action" size="icon" title="Info">
               <Info size={12} />
             </Button>
@@ -132,7 +136,7 @@
               onclick={() => handleKill(proc.pid)}
             >
               <Zap size={12} class="text-amber-400" fill="currentColor" />
-              <span class="text-xs font-bold uppercase">Kill</span>
+              <span class="text-[10px] font-bold uppercase">Kill</span>
             </Button>
           </div>
         </div>

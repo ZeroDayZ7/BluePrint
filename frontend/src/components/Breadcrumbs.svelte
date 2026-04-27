@@ -7,9 +7,16 @@
     storagePoints: string[];
     onNavigate: (path: string) => void;
     onBack: () => void;
+    class?: string;
   }
 
-  let { currentPath, storagePoints, onNavigate, onBack }: Props = $props();
+  let {
+    currentPath,
+    storagePoints,
+    onNavigate,
+    onBack,
+    class: className = "",
+  }: Props = $props();
 
   let isAtRoot = $derived(storagePoints.includes(currentPath));
 
@@ -19,7 +26,7 @@
 </script>
 
 <div
-  class="flex items-center rounded-md gap-2 px-2 h-10 border border-slate-800 bg-slate-900/60 mb-1"
+  class="flex items-center rounded-md gap-2 px-2 h-10 border border-slate-800 bg-slate-900/60 {className}"
 >
   <div class="flex items-center">
     <Button
